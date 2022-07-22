@@ -1,31 +1,66 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Soliterm
+## A game of peg solitaire to play in the terminal
+Soliterm is a game of [Peg Solitaire](https://en.wikipedia.org/wiki/Peg_solitaire) - also known as Solo Noble - that runs in the terminal and developed in Python.
+The objective of Soliterm is to empty the game board, except for a single peg in the central hole and using only valid moves.
+A peg may move orthogonally over an adjacent peg into a hole two positions away - the peg that has just been 'jumped' over is then removed.
 
-Welcome USER_NAME,
+This implementation was inspired by the one in 'The Turing Criterion - Machine Intelligent Programes for the 16K ZX81' (Charlton, Harrison, Jones and Hartnell, 1982), and has 124 holes as opposed to 33 in the traditional English version.
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **August 17, 2021**
+<p align="center">
+    <img src="readme_assets/zx81-1.png" alt="Machine Intelligent Programmes for the 16K ZX81 book cover" align="center">
+    <img src="readme_assets/zx81-2.png" alt="Machine Intelligent Programmes for the 16K ZX81 Solitaire screen shot" align="center" height="345">
+</p>
 
-## Reminders
+## Table of contents
+*To complete*
 
-* Your code must be placed in the `run.py` file
-* Your dependencies must be placed in the `requirements.txt` file
-* Do not edit any of the other files or your code may not deploy properly
+## Objectives
+The objectives of the application are:
 
-## Creating the Heroku app
+1. To provide the user with an entertaining game of Solitaire in a terminal environment.
+2. To provide clear instructions to the user.
+3. To present a clear representation of a Peg Solitaire board in a terminal.
+4. To successfully validate the user's entry of their next intended move, and provide feedback if the user enters a move in an invalid format or if the desired move is not possible within the rules of the game.
+5. To provide the user with feedback on how many pegs they have left in the board.
+6. To provide the user with feedback on how many moves they have made.
+7. To inform the user if there are no valid moves left.
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+## Features
+*To complete*
 
-1. `heroku/python`
-2. `heroku/nodejs`
+### Existing features
+*To complete*
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+### Future features
+*To complete*
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+## Libraries used
+- The Python [curses](https://docs.python.org/3/library/curses.html#module-curses) module was used to access the C ncurses library directly using Python. This allows more advanced manipulation of the text displayed in the terminal than would otherwise be possible. The aim was to provide the player with a static game board, and to consistently position the data on the number of pegs left, the number of moves made and the area where the player is prompted for their input in the terminal window. Without using a library such as ncurses, the terminal would quickly fill with text, which would scroll off the screen, and the game board would have to be continually redrawn at the current cursor position. Soliterm also takes advantaged of the fact that ncurses also allows the use of basic colour where supported by the terminal.
+- The [NumPy](https://www.w3schools.com/python/numpy/default.asp) library is used for the array representing the game board. This was chosen because NumPy arrays are usually quicker than standard Python lists, and allows simple creation and manipulation of a 2D array, which is a convenient data structure for representing the Solitare board.
 
-Connect your GitHub repository and deploy as normal.
+## Data model
+*To complete*
 
-## Constraints
+## Testing
+*To complete*
 
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
+### Validator testing
+*To complete*
 
------
-Happy coding!
+### Bugs
+#### Resolved bugs
+*To complete*
+
+#### Unresolved bugs
+*To complete*
+
+## Deployment
+*To complete*
+
+## Credits
+### Code
+*To complete*
+- The deployment terminal was provided by Code Institute.
+
+### Content
+*To complete*
