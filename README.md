@@ -64,6 +64,8 @@ The objectives of the application are:
 ### Code
 *To complete*
 - The deployment terminal was provided by Code Institute.
+- The official [Python documentation](https://docs.python.org/3/howto/curses.html) on the curses library was referenced to understand how to use curses
+- Code from [this tutorial](https://www.codingem.com/python-range-of-letters/) from codingem was adapated to create a range of letters
 
 ### Content
 *To complete*
