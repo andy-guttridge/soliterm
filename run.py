@@ -5,8 +5,7 @@ import curses
 from curses import wrapper
 import numpy as numpy
 
-
-def main(stdscr):
+def setup(stdscr):
     stdscr.clear()
     top_win = curses.newwin(19, 80, 0, 0)
     bottom_win = curses.newwin(5, 80, 19, 0)
@@ -20,6 +19,10 @@ def main(stdscr):
     bottom_win.addstr(4, 0, "***********", curses.color_pair(3))
     top_win.refresh()
     bottom_win.refresh()
+
+
+def main(stdscr):
+    setup(stdscr)
 
     # Infinite loop to test curses windows displaying correctly
     # otherwise, they disappear as soon as the program ends!
