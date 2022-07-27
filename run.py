@@ -3,11 +3,11 @@
 # Import libraries
 import curses
 from curses import wrapper
-import numpy as numpy
+import numpy as np
 
 class TermManager:
     """
-    Sets up two curses terminal windows and stores references to these
+    Sets up two curses terminal windows and contains references to these
     in top_win and bottom_win instance variables, and initialises curses color
     pairs.
     """
@@ -22,7 +22,7 @@ class TermManager:
         stdscr.clear()
         self.top_win = curses.newwin(19, 80, 0, 0)
         self.bottom_win = curses.newwin(5, 80, 19, 0)
-        
+
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_RED)
         curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_CYAN)
         curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_GREEN)
@@ -39,10 +39,45 @@ class TermManager:
         self.bottom_win.refresh()
 
 
+class GameBoard:
+    """
+    Holds a 2D array representing the game board.
+    """
+    def __init__(self):
+        """
+        Initialise an instance of GameBoard with a 2D array configured for a new game.
+        Values inside the array:
+        0 = empty hole
+        1 = hole with a peg
+        2 = unplayable 'space' at the edge of the board
+        """
+        self.board_arr = np.array(
+            [
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2]
+            ]
+        )
+
+
 
 def main(stdscr):
     term_manager = TermManager(stdscr)
     term_manager.scr_test()
+
+    game_board = GameBoard()
 
     # Infinite loop to test curses windows displaying correctly
     # otherwise, they disappear as soon as the program ends!

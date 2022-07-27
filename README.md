@@ -41,6 +41,9 @@ The objectives of the application are:
 ## Data model
 *To complete*
 
+- Game board data model
+- TermManager class
+
 ## Testing
 *To complete*
 
