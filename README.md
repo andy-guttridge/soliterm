@@ -53,6 +53,7 @@ The objectives of the application are:
 ### Bugs
 #### Resolved bugs
 - The curses getstr() function which is used to prompt and accept input from the player was returning a bytes object instead of a string, which caused a type error in the validate_format() function. This was resolved with the help of [Stack Overflow](https://stackoverflow.com/questions/21505871/curses-window-getstr) question, which noted that the `decode` method needs to be used to convert the input to a string in Python 3.
+- The validate_strings() function was incorrectly parsing the row number and returning only the first digit, e.g. 'a35d' would be returned as row 0, column 3 (should be 34 if zero indexed), down. This was caused by incorrect use of the Python string slicing syntax - the range for the slice was specified as 1:2, but should have been 1:3 so as to include the third character of the string.
 
 #### Unresolved bugs
 *To complete*

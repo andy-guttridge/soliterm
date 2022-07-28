@@ -29,18 +29,6 @@ class TermManager:
         curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_GREEN)
         curses.init_pair(4, curses.COLOR_WHITE, curses.COLOR_BLACK)
 
-    def scr_test(self):
-        """
-        Displays some srings in the top and bottom windows for testing.
-        """
-        self.top_win.addstr(0, 0, "Soliterm Top Window", curses.color_pair(1))
-        self.bottom_win.addstr(0,  0, "Soliterm Bottom Window",
-                               curses.color_pair(2))
-        self.top_win.addstr(18,  0, "***********", curses.color_pair(3))
-        self.bottom_win.addstr(4, 0, "***********", curses.color_pair(3))
-        self.top_win.refresh()
-        self.bottom_win.refresh()
-
 
 class GameBoard:
     """
@@ -129,7 +117,7 @@ def draw_board(game_board, term_manager):
 
     # Loop through each row and print out a number
     # to the left and right of each row.
-    for num in range(1, 15):
+    for num in range(1, 16):
         term_manager.top_win.addstr(num, 21, f' {str(num)} ',
                                     curses.color_pair(4))
         term_manager.top_win.addstr(num, 70, f' {str(num)} ',
@@ -140,11 +128,12 @@ def draw_board(game_board, term_manager):
 
 
 def get_move(term_manager):
+    term_manager.bottom_win.move(0, 0)
+    term_manager.bottom_win.clrtoeol()
     term_manager.bottom_win.addstr(0, 0, "Enter next move > ", curses.color_pair(4))
     curses.echo()
 
-    player_input = term_manager.bottom_win.getstr(0, 18, 4).decode(encoding=
-                                                                   "utf=8")
+    player_input = term_manager.bottom_win.getstr(0, 18, 4).decode(encoding="utf=8")
     curses.noecho()
 
     return player_input
@@ -168,7 +157,7 @@ def validate_format(move):
     if len(move) == 3:
         row = move[1]
     else:
-        row = move[1:2]
+        row = move[1:3]
 
     direction = move[-1].lower()
 
@@ -179,11 +168,11 @@ def validate_format(move):
         column_num = letters.index(column)
 
     try:
-        row_num = int(row)
+        row_num = int(row) - 1
     except ValueError:
         return(False, 0, 0, "0")
 
-    if row_num not in range(1, 15):
+    if row_num not in range(1, 16):
         return(False, 0, 0, "0")
 
     letters = ["u", "d", "l", "r"]
@@ -191,6 +180,11 @@ def validate_format(move):
         return(False, 0, 0, "0")
 
     return(True, row_num, column_num, direction)
+
+def debug_output_move(move):
+    string = "Valid move: " + str(move[0]) + " Row: " + str(move[1]) + " Column: " + str(move[2]) + " Direction: " + move[3]
+    term_manager.bottom_win.clrtoeol()
+    term_manager.bottom_win.addstr(4, 0, string, curses.color_pair(4))
 
 
 def main(stdscr):
@@ -204,17 +198,7 @@ def main(stdscr):
     while True:
         next_move = get_move(term_manager)
         validated_move = validate_format(next_move)
-
-        if not validated_move[0]:
-            term_manager.bottom_win.clrtoeol()
-            term_manager.bottom_win.addstr(1, 0, "Invalid move",
-                                           curses.color_pair(4))
-            continue
-
-        else:
-            string = "Valid move: " + str(validated_move[0]) + "Row: " + str(validated_move[1]) + " Column: " + str(validated_move[2]) + " Direction: " + validated_move[3]
-            term_manager.bottom_win.clrtoeol()
-            term_manager.bottom_win.addstr(1,0, string, curses.color_pair(4))
+        
 
 
 
