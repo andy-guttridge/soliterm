@@ -223,61 +223,81 @@ def validate_move(move, game_board):
     
     # If player wants to move down, the cell directly below
     # must have a peg and the cell below that must be empty
-    if direction == "d":
-        if (game_board.board_arr[row_num + 1, column_num] == 1)\
-         and (game_board.board_arr[row_num + 2, column_num] == 0):
-            validated_dict = {
-                "valid": True,
-                "from": (row_num, column_num),
-                "to": (row_num + 2, column_num),
-                "remove": (row_num + 1, column_num)
-            }
-            return validated_dict
-        else:
-            return validated_dict
+    try:
+        if direction == "d":
+            if (game_board.board_arr[row_num + 1, column_num] == 1)\
+             and (game_board.board_arr[row_num + 2, column_num] == 0):
+                validated_dict = {
+                    "valid": True,
+                    "from": (row_num, column_num),
+                    "to": (row_num + 2, column_num),
+                    "remove": (row_num + 1, column_num)
+                }
+                return validated_dict
+            else:
+                return validated_dict
+    
+    # Treat as invalid if move is out of bounds of the array
+    except IndexError:
+        return validated_dict
     
     # If player wants to move up, the cell directly above
     # must have a peg and the cell above that must be empty
-    if direction == "u":
-        if (game_board.board_arr[row_num - 1, column_num] == 1)\
-         and (game_board.board_arr[row_num - 2, column_num] == 0):
-            validated_dict = {
-                "valid": True,
-                "from": (row_num, column_num),
-                "to": (row_num - 2, column_num),
-                "remove": (row_num - 1, column_num)
-            }
-        else:
-            return validated_dict
+    try:
+        if direction == "u":
+            if (game_board.board_arr[row_num - 1, column_num] == 1)\
+             and (game_board.board_arr[row_num - 2, column_num] == 0):
+                validated_dict = {
+                    "valid": True,
+                    "from": (row_num, column_num),
+                    "to": (row_num - 2, column_num),
+                    "remove": (row_num - 1, column_num)
+                }
+            else:
+                return validated_dict
     
+    # Treat as invalid if move is out of bounds of the array
+    except IndexError:
+        return validated_dict
+
     # If player wants to move left, the cell directly to the left
     # must have a peg and the cell to the left of that must be empty
-    if direction == "l":
-        if (game_board.board_arr[row_num, column_num - 1] == 1)\
-         and (game_board.board_arr[row_num, column_num - 2] == 0):
-            validated_dict = {
-                "valid": True,
-                "from": (row_num, column_num),
-                "to": (row_num, column_num - 2),
-                "remove": (row_num, column_num - 1)
-            }
-        else:
-            return validated_dict
+    try:
+        if direction == "l":
+            if (game_board.board_arr[row_num, column_num - 1] == 1)\
+            and (game_board.board_arr[row_num, column_num - 2] == 0):
+                validated_dict = {
+                    "valid": True,
+                    "from": (row_num, column_num),
+                    "to": (row_num, column_num - 2),
+                    "remove": (row_num, column_num - 1)
+                }
+            else:
+                return validated_dict
+
+    # Treat as invalid if move is out of bounds of the array
+    except IndexError:
+        return validated_dict
     
     # If player wants to move right, the cell directly to the right
     # must have a peg and the cell to the right of that must be empty
-    if direction == "r":
-        if (game_board.board_arr[row_num, column_num + 1] == 1)\
-         and (game_board.board_arr[row_num, column_num + 2] == 0):
-            validated_dict = {
-                "valid": True,
-                "from": (row_num, column_num),
-                "to": (row_num, column_num + 2),
-                "remove": (row_num, column_num + 1)
-            }
-        else:
-            return validated_dict
+    try:
+        if direction == "r":
+            if (game_board.board_arr[row_num, column_num + 1] == 1)\
+            and (game_board.board_arr[row_num, column_num + 2] == 0):
+                validated_dict = {
+                    "valid": True,
+                    "from": (row_num, column_num),
+                    "to": (row_num, column_num + 2),
+                    "remove": (row_num, column_num + 1)
+                }
+            else:
+                return validated_dict
     
+    # Treat as invalid if move is out of bounds of the array
+    except IndexError:
+        return validated_dict
+
     # If we haven't found a valid move by now, there can't be one
     return validated_dict
 
