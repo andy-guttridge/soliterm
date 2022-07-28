@@ -44,37 +44,20 @@ class GameBoard:
         2 = unplayable 'space' at the edge of the board
         """
         self.board_arr = np.array(
-            # [
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            #     [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1],
-            #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2]
-            # ]
             [
-                [2, 2, 2, 2, 2, 1, 1, 0, 1, 1, 2, 2, 2, 2, 2],
                 [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 0, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 0, 1, 0, 1, 1, 2, 2, 2, 2, 2],
                 [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0],
-                [1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                 [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 0, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
                 [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
                 [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2]
             ]
@@ -218,54 +201,85 @@ def validate_format(move):
 def validate_move(move, game_board):
     """
     Check whether the player's move is valid within the rules.
-    Returns a tuple containing a bool to indicate if the move
-    is valid, and if it is the row and column of the peg to be removed.
+    Returns a dictionary containing the a bool to indicate if
+    move is valid, and if valid the location the player has moved
+    from, where they are moving to and which peg to remove.
     """
+    # Unpack the player's move
     (is_valid, row_num, column_num, direction) = move
+    
+    # Initialise dictionary to hold details of all cells affected by move
+    # In the event of an invalid move, it is returned as initialised here
+    validated_dict = {
+        "valid": False,
+        "from": (0, 0),
+        "to": (0, 0),
+        "remove": (0, 0)
+    }
 
     # Move can't be valid if the cell is an unplayable cell
     if game_board.board_arr[row_num, column_num] == 2:
-        return False
+        return validated_dict
     
     # If player wants to move down, the cell directly below
     # must have a peg and the cell below that must be empty
     if direction == "d":
         if (game_board.board_arr[row_num + 1, column_num] == 1)\
          and (game_board.board_arr[row_num + 2, column_num] == 0):
-            return (True, row_num + 1, column_num)
+            validated_dict = {
+                "valid": True,
+                "from": (row_num, column_num),
+                "to": (row_num + 2, column_num),
+                "remove": (row_num + 1, column_num)
+            }
+            return validated_dict
         else:
-            return (False, 0, 0)
+            return validated_dict
     
     # If player wants to move up, the cell directly above
     # must have a peg and the cell above that must be empty
     if direction == "u":
         if (game_board.board_arr[row_num - 1, column_num] == 1)\
          and (game_board.board_arr[row_num - 2, column_num] == 0):
-            return (True, row_num - 1, column_num)
+            validated_dict = {
+                "valid": True,
+                "from": (row_num, column_num),
+                "to": (row_num - 2, column_num),
+                "remove": (row_num - 1, column_num)
+            }
         else:
-            return (False, 0, 0)
+            return validated_dict
     
     # If player wants to move left, the cell directly to the left
     # must have a peg and the cell to the left of that must be empty
     if direction == "l":
         if (game_board.board_arr[row_num, column_num - 1] == 1)\
          and (game_board.board_arr[row_num, column_num - 2] == 0):
-            return (True, row_num, column_num - 1)
+            validated_dict = {
+                "valid": True,
+                "from": (row_num, column_num),
+                "to": (row_num, column_num - 2),
+                "remove": (row_num, column_num - 1)
+            }
         else:
-            return (False, 0, 0)
+            return validated_dict
     
     # If player wants to move right, the cell directly to the right
     # must have a peg and the cell to the right of that must be empty
     if direction == "r":
         if (game_board.board_arr[row_num, column_num + 1] == 1)\
          and (game_board.board_arr[row_num, column_num + 2] == 0):
-            return (True, row_num, column_num + 1)
+            validated_dict = {
+                "valid": True,
+                "from": (row_num, column_num),
+                "to": (row_num, column_num + 2),
+                "remove": (row_num, column_num + 1)
+            }
         else:
-            return (False, 0, 0)
+            return validated_dict
     
     # If we haven't found a valid move by now, there can't be one
-    return (False, 0, 0)
-
+    return validated_dict
 
 
 def debug_output_move(move, term_manager):
@@ -288,18 +302,37 @@ def main(stdscr):
     # Infinite loop to test curses windows displaying correctly
     # otherwise, they disappear as soon as the program ends!
     while True:
-        next_move = get_move(term_manager)
-        validated_format = validate_format(next_move)
-        debug_output_move(validated_format, term_manager)
-        move_valid = validate_move(validated_format, game_board)
-        if move_valid:
-            term_manager.bottom_win.addstr(3, 0, "Valid move", curses.color_pair(4))
-        else:
-            term_manager.bottom_win.addstr(3, 0, "Not valid move", curses.color_pair(4))
-
-
+        valid_move = False
         
+        while not valid_move:
+            next_move = get_move(term_manager)
+            formatted_move = validate_format(next_move)
+            if formatted_move[0] is False:
+                term_manager.bottom_win.move(3, 0)
+                term_manager.bottom_win.clrtoeol()
+                term_manager.bottom_win.addstr(3, 0, "Invalid format - try again", curses.color_pair(4))
+                continue
 
+            validated_move = validate_move(formatted_move, game_board)
+
+            if validated_move["valid"] is False:
+                term_manager.bottom_win.move(3, 0)
+                term_manager.bottom_win.clrtoeol()
+                term_manager.bottom_win.addstr(3, 0, "Invalid move - try again", curses.color_pair(4))
+                continue
+            
+            (from_row, from_col) = validated_move["from"]
+            (to_row, to_col) = validated_move["to"]
+            (remove_row, remove_col) = validated_move["remove"]
+
+            game_board.board_arr[from_row, from_col] = 0
+            game_board.board_arr[to_row, to_col] = 1
+            game_board.board_arr[remove_row, remove_col] = 0
+            draw_board(game_board, term_manager)
+            
+            term_manager.bottom_win.move(3, 0)
+            term_manager.bottom_win.clrtoeol()
+            term_manager.bottom_win.addstr(3, 0, "Great move! Next turn", curses.color_pair(4))
 
 
 # Initialises curses display and passes a reference to the terminal display
