@@ -328,9 +328,8 @@ def eval_moves(game_board):
     board = game_board.board_arr
     
     # Work our way through each cell on the board
-    for row in range(len(board)):
-        for column in range(len(board[row])):
-            cell = board[row, column]
+    for row, col_arr in enumerate(board):
+        for column, cell in enumerate(col_arr):
 
             #If the cell is empty or an unplayble space, move onto the next cell
             if cell == 0 or cell == 2:
