@@ -9,7 +9,7 @@ import numpy as np
 class TermManager:
     """
     Sets up two curses terminal windows and contains references to these
-    in top_win and bottom_win instance variables, and initialises curses color
+    in top_win and bottom_win instance variables. IHnitialises curses color
     pairs.
     """
     def __init__(self, stdscr):
@@ -27,6 +27,7 @@ class TermManager:
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_RED)
         curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_CYAN)
         curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_GREEN)
+        curses.init_pair(4, curses.COLOR_WHITE, curses.COLOR_BLACK)
 
     def scr_test(self):
         """
@@ -121,21 +122,75 @@ def draw_board(game_board, term_manager):
         # https://www.codingem.com/python-range-of-letters/
         letters = [chr(n) for n in range(ord("A"), ord("P"))]
         term_manager.top_win.addstr(0, cell_pos * 3 + 25, f' {letters[num]} ',
-                                    curses.color_pair(0))
+                                    curses.color_pair(4))
         term_manager.top_win.addstr(16, cell_pos * 3 + 25, f' {letters[num]} ',
-                                    curses.color_pair(0))
+                                    curses.color_pair(4))
         cell_pos += 1
 
     # Loop through each row and print out a number
     # to the left and right of each row.
     for num in range(1, 15):
         term_manager.top_win.addstr(num, 21, f' {str(num)} ',
-                                    curses.color_pair(0))
+                                    curses.color_pair(4))
         term_manager.top_win.addstr(num, 70, f' {str(num)} ',
-                                    curses.color_pair(0))
+                                    curses.color_pair(4))
 
     # Display the window now we've drawn to it
     term_manager.top_win.refresh()
+
+
+def get_move(term_manager):
+    term_manager.bottom_win.addstr(0, 0, "Enter next move > ", curses.color_pair(4))
+    curses.echo()
+
+    player_input = term_manager.bottom_win.getstr(0, 18, 4).decode(encoding=
+                                                                   "utf=8")
+    curses.noecho()
+
+    return player_input
+
+
+def validate_format(move):
+    """
+    Validates the players move to ensure it is in the right format
+    move argument is the string input by the player.
+
+    Returns a tuple containing a bool to indicate if the move was
+    in a valid format, and the row, column and direction of the move
+    if it was valid. 
+
+    Row and column are integers, direction is a string.
+    """
+    if len(move) > 4 or len(move) < 3:
+        return(False, 0, 0, "0")
+
+    column = move[0].lower()
+    if len(move) == 3:
+        row = move[1]
+    else:
+        row = move[1:2]
+
+    direction = move[-1].lower()
+
+    letters = [chr(n) for n in range(ord("a"), ord("p"))]
+    if column not in letters:
+        return(False, 0, 0, "0")
+    else:
+        column_num = letters.index(column)
+
+    try:
+        row_num = int(row)
+    except ValueError:
+        return(False, 0, 0, "0")
+
+    if row_num not in range(1, 15):
+        return(False, 0, 0, "0")
+
+    letters = ["u", "d", "l", "r"]
+    if direction not in letters:
+        return(False, 0, 0, "0")
+
+    return(True, row_num, column_num, direction)
 
 
 def main(stdscr):
@@ -147,7 +202,20 @@ def main(stdscr):
     # Infinite loop to test curses windows displaying correctly
     # otherwise, they disappear as soon as the program ends!
     while True:
-        continue
+        next_move = get_move(term_manager)
+        validated_move = validate_format(next_move)
+
+        if not validated_move[0]:
+            term_manager.bottom_win.clrtoeol()
+            term_manager.bottom_win.addstr(1, 0, "Invalid move",
+                                           curses.color_pair(4))
+            continue
+
+        else:
+            string = "Valid move: " + str(validated_move[0]) + "Row: " + str(validated_move[1]) + " Column: " + str(validated_move[2]) + " Direction: " + validated_move[3]
+            term_manager.bottom_win.clrtoeol()
+            term_manager.bottom_win.addstr(1,0, string, curses.color_pair(4))
+
 
 
 # Initialises curses display and passes a reference to the terminal display
