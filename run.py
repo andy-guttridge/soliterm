@@ -24,6 +24,9 @@ class TermManager:
         self.top_win = curses.newwin(19, 80, 0, 0)
         self.bottom_win = curses.newwin(5, 80, 19, 0)
 
+        # Additonal window for debugging output
+        self.debug_win = curses.newwin(5, 80, 25, 0)
+
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_RED)
         curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_CYAN)
         curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_GREEN)
@@ -44,41 +47,41 @@ class GameBoard:
         2 = unplayable 'space' at the edge of the board
         """
         self.board_arr = np.array(
-            [
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2]
-            ]
-            # Very sparse starting version of board for testing
             # [
-            #     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
             #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
             #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-            #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
-            #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
-            #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            #     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            #     [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1],
+            #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2]
             # ]
+            # Very sparse starting version of board for testing
+            [
+                [2, 2, 2, 2, 2, 0, 0, 1, 0, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 1, 0, 0, 1, 2, 2, 2, 2, 2],
+                [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+                [0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0],
+                [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+                [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+                [2, 2, 2, 2, 2, 0, 0, 1, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 1, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 0, 0, 1, 0, 2, 2, 2, 2, 2]
+            ]
         )
 
 
@@ -339,25 +342,25 @@ def eval_moves(game_board):
             # direction in turn
             elif cell == 1:
                 try:
-                    if board[row - 1, column] == 1 and board[row - 2, column] == 0:
+                    if (board[row - 1, column] == 1) and (board[row - 2, column] == 0):
                         return True
                 except IndexError:
                     pass
 
                 try:
-                    if board[row + 1, column] == 1 and board[row + 2, column] == 0:
+                    if (board[row + 1, column] == 1) and (board[row + 2, column] == 0):
                         return True
                 except IndexError:
                     pass
 
                 try:
-                    if board[row, column - 1] == 1 and board[row, column - 2] == 0:
+                    if (board[row, column - 1] == 1) and (board[row, column - 2]) == 0:
                         return True
                 except IndexError:
                     pass
 
                 try:
-                    if board[row, column + 1] == 1 and board[row, column + 2] == 0:
+                    if (board[row, column + 1] == 1) and (board[row, column + 2] == 0):
                             return True
                 except IndexError:
                     pass
@@ -374,6 +377,13 @@ def debug_output_move(move, term_manager):
     term_manager.bottom_win.move(4, 0)
     term_manager.bottom_win.clrtoeol()
     term_manager.bottom_win.addstr(4, 0, string, curses.color_pair(4))
+
+
+def debug_print(string, term_manager):
+    """
+    Outputs string to the debugging area
+    """
+    term_manager.addnstr(1, 0, string, curses.color_pair(4))
 
 
 def main(stdscr):
@@ -396,6 +406,7 @@ def main(stdscr):
                 term_manager.bottom_win.move(3, 0)
                 term_manager.bottom_win.clrtoeol()
                 term_manager.bottom_win.addstr(3, 0, "Invalid format - try again", curses.color_pair(4))
+                term_manager.bottom_win.refresh()
                 continue
 
             validated_move = validate_move(formatted_move, game_board)
@@ -404,6 +415,7 @@ def main(stdscr):
                 term_manager.bottom_win.move(3, 0)
                 term_manager.bottom_win.clrtoeol()
                 term_manager.bottom_win.addstr(3, 0, "Invalid move - try again", curses.color_pair(4))
+                term_manager.bottom_win.refresh()
                 continue
             
             (from_row, from_col) = validated_move["from"]
@@ -418,6 +430,7 @@ def main(stdscr):
             term_manager.bottom_win.move(3, 0)
             term_manager.bottom_win.clrtoeol()
             term_manager.bottom_win.addstr(3, 0, "Great move! Next turn", curses.color_pair(4))
+            term_manager.bottom_win.refresh()
 
             valid_move = True
         
@@ -426,6 +439,10 @@ def main(stdscr):
     term_manager.bottom_win.move(3, 0)
     term_manager.bottom_win.clrtoeol()
     term_manager.bottom_win.addstr(3, 0, "There are no moves left - game over", curses.color_pair(4))
+    term_manager.bottom_win.refresh()
+
+    while True:
+        continue
 
 
 # Initialises curses display and passes a reference to the terminal display
