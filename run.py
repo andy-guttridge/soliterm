@@ -44,20 +44,37 @@ class GameBoard:
         2 = unplayable 'space' at the edge of the board
         """
         self.board_arr = np.array(
+            # [
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            #     [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1],
+            #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2]
+            # ]
             [
+                [2, 2, 2, 2, 2, 1, 1, 0, 1, 1, 2, 2, 2, 2, 2],
                 [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 0, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 1, 0, 1, 1, 2, 2, 2, 2, 2],
                 [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
                 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0],
+                [1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
                 [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 0, 1, 2, 2, 2, 2, 2],
                 [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
                 [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2]
             ]
@@ -198,12 +215,65 @@ def validate_format(move):
     return(True, row_num, column_num, direction)
 
 
+def validate_move(move, game_board):
+    """
+    Check whether the player's move is valid within the rules.
+    Returns a tuple containing a bool to indicate if the move
+    is valid, and if it is the row and column of the peg to be removed.
+    """
+    (is_valid, row_num, column_num, direction) = move
+
+    # Move can't be valid if the cell is an unplayable cell
+    if game_board.board_arr[row_num, column_num] == 2:
+        return False
+    
+    # If player wants to move down, the cell directly below
+    # must have a peg and the cell below that must be empty
+    if direction == "d":
+        if (game_board.board_arr[row_num + 1, column_num] == 1)\
+         and (game_board.board_arr[row_num + 2, column_num] == 0):
+            return (True, row_num + 1, column_num)
+        else:
+            return (False, 0, 0)
+    
+    # If player wants to move up, the cell directly above
+    # must have a peg and the cell above that must be empty
+    if direction == "u":
+        if (game_board.board_arr[row_num - 1, column_num] == 1)\
+         and (game_board.board_arr[row_num - 2, column_num] == 0):
+            return (True, row_num - 1, column_num)
+        else:
+            return (False, 0, 0)
+    
+    # If player wants to move left, the cell directly to the left
+    # must have a peg and the cell to the left of that must be empty
+    if direction == "l":
+        if (game_board.board_arr[row_num, column_num - 1] == 1)\
+         and (game_board.board_arr[row_num, column_num - 2] == 0):
+            return (True, row_num, column_num - 1)
+        else:
+            return (False, 0, 0)
+    
+    # If player wants to move right, the cell directly to the right
+    # must have a peg and the cell to the right of that must be empty
+    if direction == "r":
+        if (game_board.board_arr[row_num, column_num + 1] == 1)\
+         and (game_board.board_arr[row_num, column_num + 2] == 0):
+            return (True, row_num, column_num + 1)
+        else:
+            return (False, 0, 0)
+    
+    # If we haven't found a valid move by now, there can't be one
+    return (False, 0, 0)
+
+
+
 def debug_output_move(move, term_manager):
     """
     Prints a string with the components of the player's
     move after validation for debugging 
     """
-    string = "Valid move: " + str(move[0]) + " Row: " + str(move[1]) + " Column: " + str(move[2]) + " Direction: " + move[3]
+    string = "Valid format: " + str(move[0]) + " Row: " + str(move[1]) + " Column: " + str(move[2]) + " Direction: " + move[3]
     term_manager.bottom_win.move(4, 0)
     term_manager.bottom_win.clrtoeol()
     term_manager.bottom_win.addstr(4, 0, string, curses.color_pair(4))
@@ -219,8 +289,15 @@ def main(stdscr):
     # otherwise, they disappear as soon as the program ends!
     while True:
         next_move = get_move(term_manager)
-        validated_move = validate_format(next_move)
-        debug_output_move(validated_move, term_manager)
+        validated_format = validate_format(next_move)
+        debug_output_move(validated_format, term_manager)
+        move_valid = validate_move(validated_format, game_board)
+        if move_valid:
+            term_manager.bottom_win.addstr(3, 0, "Valid move", curses.color_pair(4))
+        else:
+            term_manager.bottom_win.addstr(3, 0, "Not valid move", curses.color_pair(4))
+
+
         
 
 

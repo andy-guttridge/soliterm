@@ -46,6 +46,8 @@ The objectives of the application are:
 
 ## Testing
 *To complete*
+- A test function called `debug_output_move()` was used to output a string containing the outcome of the validation (`True` or `False`), row, column and direction of the player's move to the terminal while testing the `validate_format()` function.
+- To enable testing of the validate_move() function, the starting configuration of the array representing the game board was temporarily amended to contain lots of empty cells, to quickly test the output of the function in different scenarios.
 
 ### Validator testing
 *To complete*
