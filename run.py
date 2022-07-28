@@ -61,6 +61,24 @@ class GameBoard:
                 [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
                 [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2]
             ]
+            # Very sparse starting version of board for testing
+            # [
+            #     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+            #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
+            #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
+            #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            #     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+            #     [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]
+            # ]
         )
 
 
@@ -302,6 +320,52 @@ def validate_move(move, game_board):
     return validated_dict
 
 
+def eval_moves(game_board):
+    """
+    Tests whether there are still valid moves left.
+    Returns True or False.
+    """
+    board = game_board.board_arr
+    
+    # Work our way through each cell on the board
+    for row in range(len(board)):
+        for column in range(len(board[row])):
+            cell = board[row, column]
+
+            #If the cell is empty or an unplayble space, move onto the next cell
+            if cell == 0 or cell == 2:
+                continue
+
+            # If the cell has a peg, test if there is a valid move in each 
+            # direction in turn
+            elif cell == 1:
+                try:
+                    if board[row - 1, column] == 1 and board[row - 2, column] == 0:
+                        return True
+                except IndexError:
+                    pass
+
+                try:
+                    if board[row + 1, column] == 1 and board[row + 2, column] == 0:
+                        return True
+                except IndexError:
+                    pass
+
+                try:
+                    if board[row, column - 1] == 1 and board[row, column - 2] == 0:
+                        return True
+                except IndexError:
+                    pass
+
+                try:
+                    if board[row, column + 1] == 1 and board[row, column + 2] == 0:
+                            return True
+                except IndexError:
+                    pass
+
+    return False
+
+
 def debug_output_move(move, term_manager):
     """
     Prints a string with the components of the player's
@@ -319,9 +383,11 @@ def main(stdscr):
     game_board = GameBoard()
     draw_board(game_board, term_manager)
 
+    moves_left = True
+
     # Infinite loop to test curses windows displaying correctly
     # otherwise, they disappear as soon as the program ends!
-    while True:
+    while moves_left:
         valid_move = False
         
         while not valid_move:
@@ -353,6 +419,14 @@ def main(stdscr):
             term_manager.bottom_win.move(3, 0)
             term_manager.bottom_win.clrtoeol()
             term_manager.bottom_win.addstr(3, 0, "Great move! Next turn", curses.color_pair(4))
+
+            valid_move = True
+        
+        moves_left = eval_moves(game_board)
+
+    term_manager.bottom_win.move(3, 0)
+    term_manager.bottom_win.clrtoeol()
+    term_manager.bottom_win.addstr(3, 0, "There are no moves left - game over", curses.color_pair(4))
 
 
 # Initialises curses display and passes a reference to the terminal display
