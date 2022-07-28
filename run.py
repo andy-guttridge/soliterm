@@ -128,12 +128,13 @@ def draw_board(game_board, term_manager):
 
 
 def get_move(term_manager):
-    term_manager.bottom_win.move(0, 0)
+    term_manager.bottom_win.addnstr(0, 0, "Move format is column, row, direction, e.g. h10u", curses.color_pair(4))
+    term_manager.bottom_win.move(1, 0)
     term_manager.bottom_win.clrtoeol()
-    term_manager.bottom_win.addstr(0, 0, "Enter next move > ", curses.color_pair(4))
+    term_manager.bottom_win.addstr(1, 0, "Enter next move> ", curses.color_pair(4))
     curses.echo()
 
-    player_input = term_manager.bottom_win.getstr(0, 18, 4).decode(encoding="utf=8")
+    player_input = term_manager.bottom_win.getstr(1, 18, 4).decode(encoding="utf=8")
     curses.noecho()
 
     return player_input
@@ -150,39 +151,60 @@ def validate_format(move):
 
     Row and column are integers, direction is a string.
     """
+    # If move is not 3 or 4 characters, it is invalid.
     if len(move) > 4 or len(move) < 3:
         return(False, 0, 0, "0")
 
+    # Extract column from move string and ensure lower case.
     column = move[0].lower()
+
+    # If string is 3 characters, the row is the second character.
+    # If string is 4 characters, slice out the second and third characters.
     if len(move) == 3:
         row = move[1]
     else:
         row = move[1:3]
 
+    # The direction is always the last character.
     direction = move[-1].lower()
 
+    # Check if the column is within the allowed range
+    # and if it is convert to an integer.
     letters = [chr(n) for n in range(ord("a"), ord("p"))]
     if column not in letters:
         return(False, 0, 0, "0")
     else:
         column_num = letters.index(column)
-
+    
+    # Try to convert the row to an integer
+    # and convert to zero indexed.
+    # Catch error and return if player did not
+    # enter a number.
     try:
         row_num = int(row) - 1
     except ValueError:
         return(False, 0, 0, "0")
-
-    if row_num not in range(1, 16):
+    
+    # Check if row is in allowed range
+    if row_num not in range(0, 15):
         return(False, 0, 0, "0")
-
+    
+    # Check if direction is allowed
     letters = ["u", "d", "l", "r"]
     if direction not in letters:
         return(False, 0, 0, "0")
-
+    
+    # Everything checks out, return validated move
     return(True, row_num, column_num, direction)
 
-def debug_output_move(move):
+
+def debug_output_move(move, term_manager):
+    """
+    Prints a string with the components of the player's
+    move after validation for debugging 
+    """
     string = "Valid move: " + str(move[0]) + " Row: " + str(move[1]) + " Column: " + str(move[2]) + " Direction: " + move[3]
+    term_manager.bottom_win.move(4, 0)
     term_manager.bottom_win.clrtoeol()
     term_manager.bottom_win.addstr(4, 0, string, curses.color_pair(4))
 
@@ -198,6 +220,7 @@ def main(stdscr):
     while True:
         next_move = get_move(term_manager)
         validated_move = validate_format(next_move)
+        debug_output_move(validated_move, term_manager)
         
 
 
