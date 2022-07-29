@@ -242,7 +242,7 @@ def validate_move(move, game_board):
     # If player wants to move down, the cell directly below
     # must have a peg and the cell below that must be empty
     try:
-        if direction == "d":
+        if direction == "d" and row_num < (len(game_board.board_arr) - 2):
             if (game_board.board_arr[row_num + 1, column_num] == 1)\
              and (game_board.board_arr[row_num + 2, column_num] == 0):
                 validated_dict = {
@@ -262,7 +262,7 @@ def validate_move(move, game_board):
     # If player wants to move up, the cell directly above
     # must have a peg and the cell above that must be empty
     try:
-        if direction == "u":
+        if direction == "u" and row_num > 1:
             if (game_board.board_arr[row_num - 1, column_num] == 1)\
              and (game_board.board_arr[row_num - 2, column_num] == 0):
                 validated_dict = {
@@ -281,7 +281,7 @@ def validate_move(move, game_board):
     # If player wants to move left, the cell directly to the left
     # must have a peg and the cell to the left of that must be empty
     try:
-        if direction == "l":
+        if direction == "l" and column_num > 1:
             if (game_board.board_arr[row_num, column_num - 1] == 1)\
             and (game_board.board_arr[row_num, column_num - 2] == 0):
                 validated_dict = {
@@ -300,7 +300,7 @@ def validate_move(move, game_board):
     # If player wants to move right, the cell directly to the right
     # must have a peg and the cell to the right of that must be empty
     try:
-        if direction == "r":
+        if direction == "r" and (column_num > len(game_board.board_arr[row_num])):
             if (game_board.board_arr[row_num, column_num + 1] == 1)\
             and (game_board.board_arr[row_num, column_num + 2] == 0):
                 validated_dict = {
