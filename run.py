@@ -30,6 +30,7 @@ class TermManager:
         curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_GREEN)
         curses.init_pair(4, curses.COLOR_WHITE, curses.COLOR_BLACK)
         curses.init_pair(5, curses.COLOR_CYAN, curses.COLOR_BLACK)
+        curses.init_pair(6, curses.COLOR_RED, curses.COLOR_BLACK)
 
 
 class GameBoard:
@@ -83,6 +84,8 @@ class GameBoard:
             ]
         )
         # Init number of pegs in the board and number of turns
+        # Technique to count number of occurences of a value in an array from
+        # https://thispointer.com/count-occurrences-of-a-value-in-numpy-array-in-python/
         self.num_pegs = np.count_nonzero(self.board_arr == 1)
         self.num_turns = 0
 
@@ -91,8 +94,60 @@ class GameBoard:
         Updates number of pegs in board and
         increments number of turns.
         """
+        # Technique to count number of occurences of a value in an array from
+        # https://thispointer.com/count-occurrences-of-a-value-in-numpy-array-in-python/
         self.num_pegs = np.count_nonzero(self.board_arr == 1)
         self.num_turns += 1
+
+
+def show_title(term_manager):
+    """
+    Displays the title screen and instructions.
+    Waits for player to press a key to start.
+    """
+    #Define strings to display
+    logo_1 = "              _________      .__  .__  __                        "
+    logo_2 = "             /   _____/ ____ |  | |__|/  |_  ___________  _____  "
+    logo_3 = "             \_____  \ /  _ \|  | |  \   __\/ __ \_  __ \/     \ "
+    logo_4 = "             /        (  <_> )  |_|  ||  | \  ___/|  | \/  Y Y  \ "
+    logo_5 = "            /_______  /\____/|____/__||__|  \___  >__|  |__|_|  /"
+    logo_6 = "                    \/                          \/            \/ "
+    tagline = "****************** A game of peg solitaire for the terminal ******************"
+    instructions_1 = "The aim is to clear the board of pegs except for leaving one in the centre hole."
+    instructions_2 = "Pegs can move up, down, left or right by jumping over another peg into an empty"
+    instructions_3 = "hole. The peg you jump over is removed - that's how you remove pegs."
+    instructions_4 = "Pegs are shown by * with a red background. Spaces are shown by a blue space."
+    instructions_5 = "Enter your move with column, row and u, d, l or r for up, down, left or right."
+    instructions_6 = "Example: h10d to move peg in hole H10 down."
+    instructions_7 = "Example: n6l to move peg in hole N6 left."     
+    
+    # Clear the top window and display the strings.
+    term_manager.top_win.clear()
+    term_manager.top_win.addstr(0, 0, logo_1, curses.color_pair(5))
+    term_manager.top_win.addstr(1, 0, logo_2, curses.color_pair(5))
+    term_manager.top_win.addstr(2, 0, logo_3, curses.color_pair(5))
+    term_manager.top_win.addstr(3, 0, logo_4, curses.color_pair(6))
+    term_manager.top_win.addstr(4, 0, logo_5, curses.color_pair(6))
+    term_manager.top_win.addstr(5, 0, logo_6, curses.color_pair(6))
+    term_manager.top_win.addstr(6, 0, tagline, curses.color_pair(5))
+
+    term_manager.top_win.addstr(8, 0, instructions_1, curses.color_pair(4))
+    term_manager.top_win.addstr(9, 0, instructions_2, curses.color_pair(4))
+    term_manager.top_win.addstr(10, 0, instructions_3, curses.color_pair(4))
+    term_manager.top_win.addstr(11, 0, instructions_4, curses.color_pair(4))
+    term_manager.top_win.addstr(13, 0, instructions_5, curses.color_pair(4))
+    term_manager.top_win.addstr(15, 0, instructions_6, curses.color_pair(4))
+    term_manager.top_win.addstr(17, 0, instructions_7, curses.color_pair(4))
+
+    term_manager.top_win.refresh()
+    
+    # Prompt player to press a key in the bottom window
+    # and wait for key press.
+    term_manager.bottom_win.clear()
+    term_manager.bottom_win.addstr(0, 0, "Press a key to start")
+    term_manager.bottom_win.refresh()
+    key = term_manager.bottom_win.getkey()
+
 
 def draw_board(game_board, term_manager):
     """
@@ -100,6 +155,9 @@ def draw_board(game_board, term_manager):
     Arguments are references to the game_board object and
     the term_manager object.
     """
+    # Make sure window is clear
+    term_manager.top_win.clear()
+
     # Counters to represent the position of each row and cell of the game board
     row_pos = 1
     cell_pos = 25
@@ -380,62 +438,61 @@ def eval_moves(game_board):
 
 def main(stdscr):
     term_manager = TermManager(stdscr)
-
     game_board = GameBoard()
-    draw_board(game_board, term_manager)
-
-    moves_left = True
-
-    # Infinite loop to test curses windows displaying correctly
-    # otherwise, they disappear as soon as the program ends!
-    while moves_left:
-        valid_move = False
-        
-        while not valid_move:
-            next_move = get_move(term_manager)
-            formatted_move = validate_format(next_move)
-            if formatted_move[0] is False:
-                term_manager.bottom_win.move(3, 0)
-                term_manager.bottom_win.clrtoeol()
-                term_manager.bottom_win.addstr(3, 0, "Invalid format - try again", curses.color_pair(4))
-                term_manager.bottom_win.refresh()
-                continue
-
-            validated_move = validate_move(formatted_move, game_board)
-
-            if validated_move["valid"] is False:
-                term_manager.bottom_win.move(3, 0)
-                term_manager.bottom_win.clrtoeol()
-                term_manager.bottom_win.addstr(3, 0, "Invalid move - try again", curses.color_pair(4))
-                term_manager.bottom_win.refresh()
-                continue
-            
-            (from_row, from_col) = validated_move["from"]
-            (to_row, to_col) = validated_move["to"]
-            (remove_row, remove_col) = validated_move["remove"]
-
-            game_board.board_arr[from_row, from_col] = 0
-            game_board.board_arr[to_row, to_col] = 1
-            game_board.board_arr[remove_row, remove_col] = 0
-            draw_board(game_board, term_manager)
-            
-            term_manager.bottom_win.move(3, 0)
-            term_manager.bottom_win.clrtoeol()
-            term_manager.bottom_win.addstr(3, 0, "Great move! Next turn", curses.color_pair(4))
-            term_manager.bottom_win.refresh()
-
-            valid_move = True
-        
-        game_board.update_stats(term_manager)
-        moves_left = eval_moves(game_board)
-
-    term_manager.bottom_win.move(3, 0)
-    term_manager.bottom_win.clrtoeol()
-    term_manager.bottom_win.addstr(3, 0, "There are no moves left - game over", curses.color_pair(4))
-    term_manager.bottom_win.refresh()
 
     while True:
-        continue
+        show_title(term_manager)
+        draw_board(game_board, term_manager)
+
+        moves_left = True
+
+        while moves_left:
+            valid_move = False
+            
+            while not valid_move:
+                next_move = get_move(term_manager)
+                formatted_move = validate_format(next_move)
+                if formatted_move[0] is False:
+                    term_manager.bottom_win.move(3, 0)
+                    term_manager.bottom_win.clrtoeol()
+                    term_manager.bottom_win.addstr(3, 0, "Invalid format - try again", curses.color_pair(4))
+                    term_manager.bottom_win.refresh()
+                    continue
+
+                validated_move = validate_move(formatted_move, game_board)
+
+                if validated_move["valid"] is False:
+                    term_manager.bottom_win.move(3, 0)
+                    term_manager.bottom_win.clrtoeol()
+                    term_manager.bottom_win.addstr(3, 0, "Invalid move - try again", curses.color_pair(4))
+                    term_manager.bottom_win.refresh()
+                    continue
+                
+                (from_row, from_col) = validated_move["from"]
+                (to_row, to_col) = validated_move["to"]
+                (remove_row, remove_col) = validated_move["remove"]
+
+                game_board.board_arr[from_row, from_col] = 0
+                game_board.board_arr[to_row, to_col] = 1
+                game_board.board_arr[remove_row, remove_col] = 0
+                draw_board(game_board, term_manager)
+                
+                term_manager.bottom_win.move(3, 0)
+                term_manager.bottom_win.clrtoeol()
+                term_manager.bottom_win.addstr(3, 0, "Great move! Next turn", curses.color_pair(4))
+                term_manager.bottom_win.refresh()
+
+                valid_move = True
+            
+            game_board.update_stats()
+            moves_left = eval_moves(game_board)
+
+        term_manager.bottom_win.move(3, 0)
+        term_manager.bottom_win.clrtoeol()
+        term_manager.bottom_win.addstr(3, 0, "There are no moves left - game over", curses.color_pair(4))
+        term_manager.bottom_win.addstr(4, 0, "Press a key to continue", curses.color_pair(4))
+        term_manager.bottom_win.refresh()
+        term_manager.bottom_win.getkey()
 
 
 # Initialises curses display and passes a reference to the terminal display
