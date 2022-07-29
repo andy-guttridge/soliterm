@@ -20,17 +20,38 @@ class TermManager:
         top and bottomm windows and stores them as top_win and bottom_win
         instance variables. Initialises curses color pairs.
         """
+        # Get a reference to the screen and clear it
         self.stdscr = stdscr
         stdscr.clear()
+
+        # Define top and bottom windows
         self.top_win = curses.newwin(19, 80, 0, 0)
         self.bottom_win = curses.newwin(5, 80, 19, 0)
-
+        
+        # Initialise curses color_pairs
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_RED)
         curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_CYAN)
         curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_GREEN)
         curses.init_pair(4, curses.COLOR_WHITE, curses.COLOR_BLACK)
         curses.init_pair(5, curses.COLOR_CYAN, curses.COLOR_BLACK)
         curses.init_pair(6, curses.COLOR_RED, curses.COLOR_BLACK)
+
+
+    def show_msg(self, row, *strs):
+        """
+        Displays an in game message in the bottom window.
+        Arguments are starting row number and a number of strings.
+        Displays each string on a new line.
+        """
+        i = 0
+        # Clear window, loop through strings, position cursor, clear line,
+        # display string
+        self.bottom_win.clear()
+        for str in strs:
+            self.bottom_win.move(row + i, 0)
+            self.bottom_win.addstr(row + i, 0, str, curses.color_pair(4))
+            i += 1
+        self.bottom_win.refresh()
 
 
 class GameBoard:
@@ -48,22 +69,23 @@ class GameBoard:
         """
         self.board_arr = np.array(
             # Sparse starting version of board for testing
+            # One move from a win layout for testing
             [
-                [2, 2, 2, 2, 2, 0, 0, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 0, 0, 1, 0, 0, 2, 2, 2, 2, 2],
                 [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
                 [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 0, 1, 0, 0, 1, 2, 2, 2, 2, 2],
-                [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1],
-                [0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0],
-                [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1],
-                [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-                [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-                [2, 2, 2, 2, 2, 0, 0, 1, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 0, 0, 1, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 0, 0, 1, 1, 2, 2, 2, 2, 2]
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]
             ]
         )
         # Init number of pegs in the board and number of turns
@@ -433,19 +455,13 @@ def main(stdscr):
                 next_move = get_move(term_manager)
                 formatted_move = validate_format(next_move)
                 if formatted_move[0] is False:
-                    term_manager.bottom_win.move(3, 0)
-                    term_manager.bottom_win.clrtoeol()
-                    term_manager.bottom_win.addstr(3, 0, "Invalid format - try again", curses.color_pair(4))
-                    term_manager.bottom_win.refresh()
+                    term_manager.show_msg(3, "Invalid format - try again")
                     continue
 
                 validated_move = validate_move(formatted_move, game_board)
 
                 if validated_move["valid"] is False:
-                    term_manager.bottom_win.move(3, 0)
-                    term_manager.bottom_win.clrtoeol()
-                    term_manager.bottom_win.addstr(3, 0, "Invalid move - try again", curses.color_pair(4))
-                    term_manager.bottom_win.refresh()
+                    term_manager.show_msg(3, "Invalid move - try again")
                     continue
                 
                 (from_row, from_col) = validated_move["from"]
@@ -458,10 +474,7 @@ def main(stdscr):
                 game_board.update_stats()
                 draw_board(game_board, term_manager)
                 
-                term_manager.bottom_win.move(3, 0)
-                term_manager.bottom_win.clrtoeol()
-                term_manager.bottom_win.addstr(3, 0, "Great move! Next turn", curses.color_pair(4))
-                term_manager.bottom_win.refresh()
+                term_manager.show_msg(3, "Great move! Next turn")
 
                 valid_move = True
             
@@ -472,14 +485,11 @@ def main(stdscr):
         else:
             endgame_msg = "There are no moves left - game over"
 
-        term_manager.bottom_win.clear()
-        term_manager.bottom_win.addstr(0, 0, endgame_msg, curses.color_pair(4))
-        term_manager.bottom_win.addstr(1, 0, "Press a key to continue", curses.color_pair(4))
-        term_manager.bottom_win.refresh()
+        term_manager.show_msg(0, endgame_msg, "Press a key to continue")
         term_manager.bottom_win.getkey()
 
 
 # Initialises curses display and passes a reference to the terminal display
-# and calls our main main function when complete, passing it a reference to
+# and calls our main main function when com plete, passing it a reference to
 # the terminal display.
 wrapper(main)
