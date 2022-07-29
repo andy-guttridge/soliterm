@@ -128,7 +128,7 @@ def show_title(term_manager):
         "hole. The peg you jump over is removed - that's how you remove pegs.",
         " ",
         "Pegs are shown by * with a red background. "
-        "Spaces are shown by a blue space.",
+        "Spaces are shown in blue.",
         "Enter your move with column, row and u, d, l or r for up, down, "
         "left or right.",
         " ",
