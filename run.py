@@ -487,8 +487,7 @@ def main(stdscr):
             game_board.update_stats()
             moves_left = eval_moves(game_board)
 
-        term_manager.bottom_win.move(3, 0)
-        term_manager.bottom_win.clrtoeol()
+        term_manager.bottom_win.clear()
         term_manager.bottom_win.addstr(0, 0, "There are no moves left - game over", curses.color_pair(4))
         term_manager.bottom_win.addstr(1, 0, "Press a key to continue", curses.color_pair(4))
         term_manager.bottom_win.refresh()
