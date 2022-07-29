@@ -27,7 +27,7 @@ class TermManager:
         # Define top and bottom windows
         self.top_win = curses.newwin(19, 80, 0, 0)
         self.bottom_win = curses.newwin(5, 80, 19, 0)
-        
+
         # Initialise curses color_pairs
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_RED)
         curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_CYAN)
@@ -35,7 +35,6 @@ class TermManager:
         curses.init_pair(4, curses.COLOR_WHITE, curses.COLOR_BLACK)
         curses.init_pair(5, curses.COLOR_CYAN, curses.COLOR_BLACK)
         curses.init_pair(6, curses.COLOR_RED, curses.COLOR_BLACK)
-
 
     def show_msg(self, row, *strs):
         """
@@ -47,9 +46,9 @@ class TermManager:
         # Clear window, loop through strings, position cursor, clear line,
         # display string
         self.bottom_win.clear()
-        for str in strs:
+        for string in strs:
             self.bottom_win.move(row + i, 0)
-            self.bottom_win.addstr(row + i, 0, str, curses.color_pair(4))
+            self.bottom_win.addstr(row + i, 0, string, curses.color_pair(4))
             i += 1
         self.bottom_win.refresh()
 
@@ -110,45 +109,51 @@ def show_title(term_manager):
     Displays the title screen and instructions.
     Waits for player to press a key to start.
     """
-    #Define strings to display
+    # Define strings to display
     logo = np.array([
-        "              _________      .__  .__  __                        ",
-        "             /   _____/ ____ |  | |__|/  |_  ___________  _____  ",
-        "             \_____  \ /  _ \|  | |  \   __\/ __ \_  __ \/     \ ",
-        "             /        (  <_> )  |_|  ||  | \  ___/|  | \/  Y Y  \ ",
-        "            /_______  /\____/|____/__||__|  \___  >__|  |__|_|  /",
-        "                    \/                          \/            \/ "
+        r"              _________      .__  .__  __                        ",
+        r"             /   _____/ ____ |  | |__|/  |_  ___________  _____  ",
+        r"             \_____  \ /  _ \|  | |  \   __\/ __ \_  __ \/     \ ",
+        r"             /        (  <_> )  |_|  ||  | \  ___/|  | \/  Y Y  \ ",
+        r"            /_______  /\____/|____/__||__|  \___  >__|  |__|_|  / ",
+        r"                    \/                          \/            \/ "
     ])
-    
-    tagline = "******************* A game of peg solitaire for the terminal *******************"
+
+    tagline = "******************* A game of peg solitaire for the terminal"\
+              " *******************"
     instructions = np.array([
-        "The aim is to clear the board of pegs except for leaving one in the centre hole.",
-        "Pegs can move up, down, left or right by jumping over another peg into an empty",
+        "The aim is to clear the board of pegs except for leaving one "
+        "in the centre hole.",
+        "Pegs can move up, down, left or right by jumping over another peg "
+        "into an empty",
         "hole. The peg you jump over is removed - that's how you remove pegs.",
         " ",
-        "Pegs are shown by * with a red background. Spaces are shown by a blue space.",
-        "Enter your move with column, row and u, d, l or r for up, down, left or right.",
+        "Pegs are shown by * with a red background. "
+        "Spaces are shown by a blue space.",
+        "Enter your move with column, row and u, d, l or r for up, down, "
+        "left or right.",
         " ",
         "Example: h10d to move peg in hole H10 down.",
         " ",
         "Example: n6l to move peg in hole N6 left."
     ])
-    
+
     # Clear the top window and display the strings.
     term_manager.top_win.clear()
     for i in range(0, 3):
         term_manager.top_win.addstr(i, 0, logo[i], curses.color_pair(5))
-    
+
     for i in range(3, len(logo)):
         term_manager.top_win.addstr(i, 0, logo[i], curses.color_pair(6))
 
     term_manager.top_win.addstr(6, 0, tagline, curses.color_pair(5))
 
     for i in range(0, len(instructions)):
-        term_manager.top_win.addstr(i + 8, 0, instructions[i], curses.color_pair(4))
+        term_manager.top_win.addstr(i + 8, 0, instructions[i],
+                                    curses.color_pair(4))
 
     term_manager.top_win.refresh()
-    
+
     # Prompt player to press a key in the bottom window
     # and wait for key press.
     term_manager.show_msg(0, "Press a key to start")
@@ -190,7 +195,7 @@ def draw_board(game_board, term_manager):
         # Increment the row counter and reset the cell counter for another row
         row_pos += 1
         cell_pos = 25
-    
+
     # Print out the cell position letters and numbers above
     # and below the board.
     cell_pos = 0
@@ -217,10 +222,12 @@ def draw_board(game_board, term_manager):
         term_manager.top_win.addstr(num, 70, f' {str(num)} ',
                                     curses.color_pair(4))
 
-    #Print the game stats to the top window
-    term_manager.top_win.addstr(0, 0, f"Pegs left: {game_board.num_pegs}", curses.color_pair(5))
-    term_manager.top_win.addstr(1, 0, f"Turns taken: {game_board.num_turns}", curses.color_pair(5))
-        
+    # Print the game stats to the top window
+    term_manager.top_win.addstr(0, 0, f"Pegs left: {game_board.num_pegs}",
+                                curses.color_pair(5))
+    term_manager.top_win.addstr(1, 0, f"Turns taken: {game_board.num_turns}",
+                                curses.color_pair(5))
+
     # Display the window now we've drawn to it
     term_manager.top_win.refresh()
 
@@ -230,13 +237,17 @@ def get_move(term_manager):
     Prompts the player to enter their next move,
     accepts input and returns the value entered.
     """
-    term_manager.bottom_win.addnstr(0, 0, "Move format is column, row, direction, e.g. h10u", curses.color_pair(4))
+    term_manager.bottom_win.addnstr(0, 0, "Move format is column, row, "
+                                    "direction, e.g. h10u",
+                                    curses.color_pair(4))
     term_manager.bottom_win.move(1, 0)
     term_manager.bottom_win.clrtoeol()
-    term_manager.bottom_win.addstr(1, 0, "Enter next move> ", curses.color_pair(4))
+    term_manager.bottom_win.addstr(1, 0, "Enter next move> ",
+                                   curses.color_pair(4))
     curses.echo()
 
-    player_input = term_manager.bottom_win.getstr(1, 18, 4).decode(encoding="utf=8")
+    player_input =\
+        term_manager.bottom_win.getstr(1, 18, 4).decode(encoding="utf=8")
     curses.noecho()
 
     return player_input
@@ -249,7 +260,7 @@ def validate_format(move):
 
     Returns a tuple containing a bool to indicate if the move was
     in a valid format, and the row, column and direction of the move
-    if it was valid. 
+    if it was valid.
 
     Row and column are integers, direction is a string.
     """
@@ -277,7 +288,7 @@ def validate_format(move):
         return(False, 0, 0, "0")
     else:
         column_num = letters.index(column)
-    
+
     # Try to convert the row to an integer
     # and convert to zero indexed.
     # Catch error and return if player did not
@@ -286,16 +297,16 @@ def validate_format(move):
         row_num = int(row) - 1
     except ValueError:
         return(False, 0, 0, "0")
-    
+
     # Check if row is in allowed range
     if row_num not in range(0, 15):
         return(False, 0, 0, "0")
-    
+
     # Check if direction is allowed
     letters = ["u", "d", "l", "r"]
     if direction not in letters:
         return(False, 0, 0, "0")
-    
+
     # Everything checks out, return validated move
     return(True, row_num, column_num, direction)
 
@@ -308,8 +319,8 @@ def validate_move(move, game_board):
     from, where they are moving to and which peg to remove.
     """
     # Unpack the player's move
-    (is_valid, row_num, column_num, direction) = move
-    
+    (_, row_num, column_num, direction) = move
+
     # Initialise dictionary to hold details of all cells affected by move
     # In the event of an invalid move, it is returned as initialised here
     validated_dict = {
@@ -322,13 +333,13 @@ def validate_move(move, game_board):
     # Move can't be valid if the cell is an unplayable cell
     if game_board.board_arr[row_num, column_num] == 2:
         return validated_dict
-    
+
     # If player wants to move down, the cell directly below
     # must have a peg and the cell below that must be empty
 
     if direction == "d" and row_num < (len(game_board.board_arr) - 2):
         if (game_board.board_arr[row_num + 1, column_num] == 1)\
-            and (game_board.board_arr[row_num + 2, column_num] == 0):
+          and (game_board.board_arr[row_num + 2, column_num] == 0):
             validated_dict = {
                 "valid": True,
                 "from": (row_num, column_num),
@@ -338,14 +349,13 @@ def validate_move(move, game_board):
             return validated_dict
         else:
             return validated_dict
-    
-    
+
     # If player wants to move up, the cell directly above
     # must have a peg and the cell above that must be empty
 
     if direction == "u" and row_num > 1:
         if (game_board.board_arr[row_num - 1, column_num] == 1)\
-            and (game_board.board_arr[row_num - 2, column_num] == 0):
+          and (game_board.board_arr[row_num - 2, column_num] == 0):
             validated_dict = {
                 "valid": True,
                 "from": (row_num, column_num),
@@ -354,13 +364,12 @@ def validate_move(move, game_board):
             }
         else:
             return validated_dict
-  
 
     # If player wants to move left, the cell directly to the left
     # must have a peg and the cell to the left of that must be empty
     if direction == "l" and column_num > 1:
         if (game_board.board_arr[row_num, column_num - 1] == 1)\
-            and (game_board.board_arr[row_num, column_num - 2] == 0):
+          and (game_board.board_arr[row_num, column_num - 2] == 0):
             validated_dict = {
                 "valid": True,
                 "from": (row_num, column_num),
@@ -369,12 +378,13 @@ def validate_move(move, game_board):
             }
         else:
             return validated_dict
-    
+
     # If player wants to move right, the cell directly to the right
     # must have a peg and the cell to the right of that must be empty
-    if direction == "r" and (column_num < len(game_board.board_arr[row_num]) - 2):
+    if direction == "r" and (column_num < len
+                             (game_board.board_arr[row_num]) - 2):
         if (game_board.board_arr[row_num, column_num + 1] == 1)\
-            and (game_board.board_arr[row_num, column_num + 2] == 0):
+          and (game_board.board_arr[row_num, column_num + 2] == 0):
             validated_dict = {
                 "valid": True,
                 "from": (row_num, column_num),
@@ -394,35 +404,41 @@ def eval_moves(game_board):
     Returns True or False.
     """
     board = game_board.board_arr
-    
+
     # Work our way through each cell on the board
     for row, col_arr in enumerate(board):
         for column, cell in enumerate(col_arr):
 
-            #If the cell is empty or an unplayble space, move onto the next cell
+            # If the cell is empty or an unplayble space,
+            # move onto the next cell
             if cell == 0 or cell == 2:
                 continue
 
-            # If the cell has a peg, test if there is a valid move in each 
+            # If the cell has a peg, test if there is a valid move in each
             # direction in turn
             elif cell == 1:
                 if row > 1:
-                    if (board[row - 1, column] == 1) and (board[row - 2, column] == 0):
+                    if (board[row - 1, column] == 1) and (board[row - 2,
+                                                          column] == 0):
                         return True
 
                 if row < (len(board) - 2):
-                    if (board[row + 1, column] == 1) and (board[row + 2, column] == 0):
+                    if (board[row + 1, column] == 1) and (board[row + 2,
+                                                          column] == 0):
                         return True
 
                 if column > 2:
-                    if (board[row, column - 1] == 1) and (board[row, column - 2]) == 0:
+                    if (board[row, column - 1] == 1) and (board[row,
+                                                          column - 2]) == 0:
                         return True
 
                 if column < (len(col_arr) - 2):
-                    if (board[row, column + 1] == 1) and (board[row, column + 2] == 0):
+                    if (board[row, column + 1] == 1) and (board[row,
+                                                          column + 2] == 0):
                         return True
-    
-    # If we exit the loop without returning True, there can be no valid moves left
+
+    # If we exit the loop without returning True,
+    # there can be no valid moves left
     return False
 
 
@@ -440,6 +456,9 @@ def check_win(game_board):
 
 
 def main(stdscr):
+    """
+    The main game loop.
+    """
     term_manager = TermManager(stdscr)
 
     while True:
@@ -451,7 +470,7 @@ def main(stdscr):
 
         while moves_left:
             valid_move = False
-            
+
             while not valid_move:
                 next_move = get_move(term_manager)
                 formatted_move = validate_format(next_move)
@@ -464,7 +483,7 @@ def main(stdscr):
                 if validated_move["valid"] is False:
                     term_manager.show_msg(3, "Invalid move - try again")
                     continue
-                
+
                 (from_row, from_col) = validated_move["from"]
                 (to_row, to_col) = validated_move["to"]
                 (remove_row, remove_col) = validated_move["remove"]
@@ -474,13 +493,13 @@ def main(stdscr):
                 game_board.board_arr[remove_row, remove_col] = 0
                 game_board.update_stats()
                 draw_board(game_board, term_manager)
-                
+
                 term_manager.show_msg(3, "Great move! Next turn")
 
                 valid_move = True
-            
+
             moves_left = eval_moves(game_board)
-        
+
         if check_win(game_board):
             endgame_msg = "Wow, you've won! Well done!!!"
         else:
