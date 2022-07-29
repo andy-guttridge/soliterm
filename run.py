@@ -47,40 +47,23 @@ class GameBoard:
         2 = unplayable 'space' at the edge of the board
         """
         self.board_arr = np.array(
-            # [
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            #     [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1],
-            #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            #     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-            #     [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2]
-            # ]
-            # Very sparse starting version of board for testing
+            # Close to a win layout for testing
             [
-                [2, 2, 2, 2, 2, 0, 0, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 0, 0, 1, 0, 0, 2, 2, 2, 2, 2],
                 [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
                 [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 0, 1, 0, 0, 1, 2, 2, 2, 2, 2],
-                [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1],
-                [0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0],
-                [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1],
-                [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-                [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-                [2, 2, 2, 2, 2, 0, 0, 1, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 0, 0, 1, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 0, 0, 1, 1, 2, 2, 2, 2, 2]
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]
             ]
         )
         # Init number of pegs in the board and number of turns
@@ -134,7 +117,7 @@ def show_title(term_manager):
     term_manager.top_win.addstr(8, 0, instructions_1, curses.color_pair(4))
     term_manager.top_win.addstr(9, 0, instructions_2, curses.color_pair(4))
     term_manager.top_win.addstr(10, 0, instructions_3, curses.color_pair(4))
-    term_manager.top_win.addstr(11, 0, instructions_4, curses.color_pair(4))
+    term_manager.top_win.addstr(12, 0, instructions_4, curses.color_pair(4))
     term_manager.top_win.addstr(13, 0, instructions_5, curses.color_pair(4))
     term_manager.top_win.addstr(15, 0, instructions_6, curses.color_pair(4))
     term_manager.top_win.addstr(17, 0, instructions_7, curses.color_pair(4))
@@ -436,6 +419,19 @@ def eval_moves(game_board):
     return False
 
 
+def check_win(game_board):
+    """
+    Checks if the player has won and
+    returns True or False
+    """
+    # If there is only one peg left and the middle position has a peg
+    # player must have won.
+    if game_board.num_pegs == 1 and game_board.board_arr[7, 7] == 1:
+        return True
+    else:
+        return False
+
+
 def main(stdscr):
     term_manager = TermManager(stdscr)
 
@@ -486,9 +482,14 @@ def main(stdscr):
                 valid_move = True
             
             moves_left = eval_moves(game_board)
+        
+        if check_win(game_board):
+            endgame_msg = "Wow, you've won! Well done!!!"
+        else:
+            endgame_msg = "There are no moves left - game over"
 
         term_manager.bottom_win.clear()
-        term_manager.bottom_win.addstr(0, 0, "There are no moves left - game over", curses.color_pair(4))
+        term_manager.bottom_win.addstr(0, 0, endgame_msg, curses.color_pair(4))
         term_manager.bottom_win.addstr(1, 0, "Press a key to continue", curses.color_pair(4))
         term_manager.bottom_win.refresh()
         term_manager.bottom_win.getkey()
