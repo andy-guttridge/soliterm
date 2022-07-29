@@ -223,9 +223,9 @@ def draw_board(game_board, term_manager):
 
     # Print the game stats to the top window
     term_manager.top_win.addstr(0, 0, f"Pegs left: {game_board.num_pegs}",
-                                curses.color_pair(5))
+                                curses.color_pair(4))
     term_manager.top_win.addstr(1, 0, f"Turns taken: {game_board.num_turns}",
-                                curses.color_pair(5))
+                                curses.color_pair(4))
 
     # Display the window now we've drawn to it
     term_manager.top_win.refresh()
