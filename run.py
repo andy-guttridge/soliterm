@@ -24,9 +24,6 @@ class TermManager:
         self.top_win = curses.newwin(19, 80, 0, 0)
         self.bottom_win = curses.newwin(5, 80, 19, 0)
 
-        # Additonal window for debugging output
-        self.debug_win = curses.newwin(5, 80, 25, 0)
-
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_RED)
         curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_CYAN)
         curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_GREEN)
@@ -366,17 +363,6 @@ def eval_moves(game_board):
                     pass
 
     return False
-
-
-def debug_output_move(move, term_manager):
-    """
-    Prints a string with the components of the player's
-    move after validation for debugging 
-    """
-    string = "Valid format: " + str(move[0]) + " Row: " + str(move[1]) + " Column: " + str(move[2]) + " Direction: " + move[3]
-    term_manager.bottom_win.move(4, 0)
-    term_manager.bottom_win.clrtoeol()
-    term_manager.bottom_win.addstr(4, 0, string, curses.color_pair(4))
 
 
 def debug_print(string, term_manager):
