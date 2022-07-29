@@ -489,8 +489,8 @@ def main(stdscr):
 
         term_manager.bottom_win.move(3, 0)
         term_manager.bottom_win.clrtoeol()
-        term_manager.bottom_win.addstr(3, 0, "There are no moves left - game over", curses.color_pair(4))
-        term_manager.bottom_win.addstr(4, 0, "Press a key to continue", curses.color_pair(4))
+        term_manager.bottom_win.addstr(0, 0, "There are no moves left - game over", curses.color_pair(4))
+        term_manager.bottom_win.addstr(1, 0, "Press a key to continue", curses.color_pair(4))
         term_manager.bottom_win.refresh()
         term_manager.bottom_win.getkey()
 
