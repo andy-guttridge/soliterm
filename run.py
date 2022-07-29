@@ -438,10 +438,10 @@ def eval_moves(game_board):
 
 def main(stdscr):
     term_manager = TermManager(stdscr)
-    game_board = GameBoard()
 
     while True:
         show_title(term_manager)
+        game_board = GameBoard()
         draw_board(game_board, term_manager)
 
         moves_left = True
@@ -475,6 +475,7 @@ def main(stdscr):
                 game_board.board_arr[from_row, from_col] = 0
                 game_board.board_arr[to_row, to_col] = 1
                 game_board.board_arr[remove_row, remove_col] = 0
+                game_board.update_stats()
                 draw_board(game_board, term_manager)
                 
                 term_manager.bottom_win.move(3, 0)
@@ -484,7 +485,6 @@ def main(stdscr):
 
                 valid_move = True
             
-            game_board.update_stats()
             moves_left = eval_moves(game_board)
 
         term_manager.bottom_win.clear()
