@@ -283,7 +283,7 @@ def validate_move(move, game_board):
     try:
         if direction == "l" and column_num > 1:
             if (game_board.board_arr[row_num, column_num - 1] == 1)\
-            and (game_board.board_arr[row_num, column_num - 2] == 0):
+             and (game_board.board_arr[row_num, column_num - 2] == 0):
                 validated_dict = {
                     "valid": True,
                     "from": (row_num, column_num),
@@ -302,7 +302,7 @@ def validate_move(move, game_board):
     try:
         if direction == "r" and (column_num > len(game_board.board_arr[row_num])):
             if (game_board.board_arr[row_num, column_num + 1] == 1)\
-            and (game_board.board_arr[row_num, column_num + 2] == 0):
+             and (game_board.board_arr[row_num, column_num + 2] == 0):
                 validated_dict = {
                     "valid": True,
                     "from": (row_num, column_num),
