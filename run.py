@@ -9,8 +9,9 @@ import numpy as np
 class TermManager:
     """
     Sets up two curses terminal windows and contains references to these
-    in top_win and bottom_win instance variables. IHnitialises curses color
-    pairs.
+    in top_win and bottom_win instance variables. Initialises curses color
+    pairs. Stores number of pegs in the board and number of turns, and
+    has a method to update these.
     """
     def __init__(self, stdscr):
         """
@@ -28,6 +29,7 @@ class TermManager:
         curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_CYAN)
         curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_GREEN)
         curses.init_pair(4, curses.COLOR_WHITE, curses.COLOR_BLACK)
+        curses.init_pair(5, curses.COLOR_CYAN, curses.COLOR_BLACK)
 
 
 class GameBoard:
@@ -37,7 +39,7 @@ class GameBoard:
     def __init__(self):
         """
         Initialise an instance of GameBoard with a 2D array configured
-        for a new game.
+        for a new gamem and variables to hold number of pegs and turns.
         Values inside the array:
         0 = empty hole
         1 = hole with a peg
@@ -80,7 +82,17 @@ class GameBoard:
                 [2, 2, 2, 2, 2, 1, 0, 0, 1, 1, 2, 2, 2, 2, 2]
             ]
         )
+        # Init number of pegs in the board and number of turns
+        self.num_pegs = np.count_nonzero(self.board_arr == 1)
+        self.num_turns = 0
 
+    def update_stats(self):
+        """
+        Updates number of pegs in board and
+        increments number of turns.
+        """
+        self.num_pegs = np.count_nonzero(self.board_arr == 1)
+        self.num_turns += 1
 
 def draw_board(game_board, term_manager):
     """
@@ -141,11 +153,19 @@ def draw_board(game_board, term_manager):
         term_manager.top_win.addstr(num, 70, f' {str(num)} ',
                                     curses.color_pair(4))
 
+    #Print the game stats to the top window
+    term_manager.top_win.addstr(0, 0, f"Pegs left: {game_board.num_pegs}", curses.color_pair(5))
+    term_manager.top_win.addstr(1, 0, f"Turns taken: {game_board.num_turns}", curses.color_pair(5))
+        
     # Display the window now we've drawn to it
     term_manager.top_win.refresh()
 
 
 def get_move(term_manager):
+    """
+    Prompts the player to enter their next move,
+    accepts input and returns the value entered.
+    """
     term_manager.bottom_win.addnstr(0, 0, "Move format is column, row, direction, e.g. h10u", curses.color_pair(4))
     term_manager.bottom_win.move(1, 0)
     term_manager.bottom_win.clrtoeol()
@@ -406,6 +426,7 @@ def main(stdscr):
 
             valid_move = True
         
+        game_board.update_stats(term_manager)
         moves_left = eval_moves(game_board)
 
     term_manager.bottom_win.move(3, 0)
