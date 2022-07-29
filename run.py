@@ -111,47 +111,48 @@ def show_title(term_manager):
     Waits for player to press a key to start.
     """
     #Define strings to display
-    logo_1 = "              _________      .__  .__  __                        "
-    logo_2 = "             /   _____/ ____ |  | |__|/  |_  ___________  _____  "
-    logo_3 = "             \_____  \ /  _ \|  | |  \   __\/ __ \_  __ \/     \ "
-    logo_4 = "             /        (  <_> )  |_|  ||  | \  ___/|  | \/  Y Y  \ "
-    logo_5 = "            /_______  /\____/|____/__||__|  \___  >__|  |__|_|  /"
-    logo_6 = "                    \/                          \/            \/ "
+    logo = np.array([
+        "              _________      .__  .__  __                        ",
+        "             /   _____/ ____ |  | |__|/  |_  ___________  _____  ",
+        "             \_____  \ /  _ \|  | |  \   __\/ __ \_  __ \/     \ ",
+        "             /        (  <_> )  |_|  ||  | \  ___/|  | \/  Y Y  \ ",
+        "            /_______  /\____/|____/__||__|  \___  >__|  |__|_|  /",
+        "                    \/                          \/            \/ "
+    ])
+    
     tagline = "******************* A game of peg solitaire for the terminal *******************"
-    instructions_1 = "The aim is to clear the board of pegs except for leaving one in the centre hole."
-    instructions_2 = "Pegs can move up, down, left or right by jumping over another peg into an empty"
-    instructions_3 = "hole. The peg you jump over is removed - that's how you remove pegs."
-    instructions_4 = "Pegs are shown by * with a red background. Spaces are shown by a blue space."
-    instructions_5 = "Enter your move with column, row and u, d, l or r for up, down, left or right."
-    instructions_6 = "Example: h10d to move peg in hole H10 down."
-    instructions_7 = "Example: n6l to move peg in hole N6 left."     
+    instructions = np.array([
+        "The aim is to clear the board of pegs except for leaving one in the centre hole.",
+        "Pegs can move up, down, left or right by jumping over another peg into an empty",
+        "hole. The peg you jump over is removed - that's how you remove pegs.",
+        " ",
+        "Pegs are shown by * with a red background. Spaces are shown by a blue space.",
+        "Enter your move with column, row and u, d, l or r for up, down, left or right.",
+        " ",
+        "Example: h10d to move peg in hole H10 down.",
+        " ",
+        "Example: n6l to move peg in hole N6 left."
+    ])
     
     # Clear the top window and display the strings.
     term_manager.top_win.clear()
-    term_manager.top_win.addstr(0, 0, logo_1, curses.color_pair(5))
-    term_manager.top_win.addstr(1, 0, logo_2, curses.color_pair(5))
-    term_manager.top_win.addstr(2, 0, logo_3, curses.color_pair(5))
-    term_manager.top_win.addstr(3, 0, logo_4, curses.color_pair(6))
-    term_manager.top_win.addstr(4, 0, logo_5, curses.color_pair(6))
-    term_manager.top_win.addstr(5, 0, logo_6, curses.color_pair(6))
+    for i in range(0, 3):
+        term_manager.top_win.addstr(i, 0, logo[i], curses.color_pair(5))
+    
+    for i in range(3, len(logo)):
+        term_manager.top_win.addstr(i, 0, logo[i], curses.color_pair(6))
+
     term_manager.top_win.addstr(6, 0, tagline, curses.color_pair(5))
 
-    term_manager.top_win.addstr(8, 0, instructions_1, curses.color_pair(4))
-    term_manager.top_win.addstr(9, 0, instructions_2, curses.color_pair(4))
-    term_manager.top_win.addstr(10, 0, instructions_3, curses.color_pair(4))
-    term_manager.top_win.addstr(12, 0, instructions_4, curses.color_pair(4))
-    term_manager.top_win.addstr(13, 0, instructions_5, curses.color_pair(4))
-    term_manager.top_win.addstr(15, 0, instructions_6, curses.color_pair(4))
-    term_manager.top_win.addstr(17, 0, instructions_7, curses.color_pair(4))
+    for i in range(0, len(instructions)):
+        term_manager.top_win.addstr(i + 8, 0, instructions[i], curses.color_pair(4))
 
     term_manager.top_win.refresh()
     
     # Prompt player to press a key in the bottom window
     # and wait for key press.
-    term_manager.bottom_win.clear()
-    term_manager.bottom_win.addstr(0, 0, "Press a key to start")
-    term_manager.bottom_win.refresh()
-    key = term_manager.bottom_win.getkey()
+    term_manager.show_msg(0, "Press a key to start")
+    term_manager.bottom_win.getkey()
 
 
 def draw_board(game_board, term_manager):
