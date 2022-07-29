@@ -358,13 +358,6 @@ def eval_moves(game_board):
     return False
 
 
-def debug_print(string, term_manager):
-    """
-    Outputs string to the debugging area
-    """
-    term_manager.addnstr(1, 0, string, curses.color_pair(4))
-
-
 def main(stdscr):
     term_manager = TermManager(stdscr)
 
