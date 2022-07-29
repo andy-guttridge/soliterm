@@ -338,30 +338,23 @@ def eval_moves(game_board):
             # If the cell has a peg, test if there is a valid move in each 
             # direction in turn
             elif cell == 1:
-                try:
+                if row > 1:
                     if (board[row - 1, column] == 1) and (board[row - 2, column] == 0):
                         return True
-                except IndexError:
-                    pass
 
-                try:
+                if row < (len(board) - 2):
                     if (board[row + 1, column] == 1) and (board[row + 2, column] == 0):
                         return True
-                except IndexError:
-                    pass
 
-                try:
+                if column > 2:
                     if (board[row, column - 1] == 1) and (board[row, column - 2]) == 0:
                         return True
-                except IndexError:
-                    pass
 
-                try:
+                if column < (len(col_arr) - 2):
                     if (board[row, column + 1] == 1) and (board[row, column + 2] == 0):
-                            return True
-                except IndexError:
-                    pass
-
+                        return True
+    
+    # If we exit the loop without returning True, there can be no valid moves left
     return False
 
 
