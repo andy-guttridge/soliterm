@@ -112,7 +112,7 @@ def show_title(term_manager):
     logo_4 = "             /        (  <_> )  |_|  ||  | \  ___/|  | \/  Y Y  \ "
     logo_5 = "            /_______  /\____/|____/__||__|  \___  >__|  |__|_|  /"
     logo_6 = "                    \/                          \/            \/ "
-    tagline = "****************** A game of peg solitaire for the terminal ******************"
+    tagline = "******************* A game of peg solitaire for the terminal *******************"
     instructions_1 = "The aim is to clear the board of pegs except for leaving one in the centre hole."
     instructions_2 = "Pegs can move up, down, left or right by jumping over another peg into an empty"
     instructions_3 = "hole. The peg you jump over is removed - that's how you remove pegs."
