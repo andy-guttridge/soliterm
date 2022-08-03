@@ -499,7 +499,7 @@ def main(stdscr):
                     continue
                 # Check for special cases and exit or display instructions
                 elif formatted_move[1] == -1:
-                    sys_exit("Soliterm exited")
+                    sys_exit("Soliterm exited - please play again soon!")
                 elif formatted_move[1] == -2:
                     show_title(term_manager)
                     draw_board(game_board, term_manager)
