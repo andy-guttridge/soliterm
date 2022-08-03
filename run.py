@@ -313,7 +313,7 @@ def validate_format(move):
 def validate_move(move, game_board):
     """
     Check whether the player's move is valid within the rules.
-    Returns a dictionary containing the a bool to indicate if
+    Returns a dictionary containing  a bool to indicate if
     move is valid, and if valid the location the player has moved
     from, where they are moving to and which peg to remove.
     """
@@ -459,34 +459,51 @@ def main(stdscr):
     The main game loop.
     """
     term_manager = TermManager(stdscr)
-
+    
+    #  Outer loop which encompasses the starting screen and game
     while True:
+
+        # Show the title page
         show_title(term_manager)
+
+        # Instantiate game_board instance and draw the board on the screen
         game_board = GameBoard()
         draw_board(game_board, term_manager)
-
+        
+        # Flag to record if the player has any moves left
         moves_left = True
-
+        
+        # Loop while the player still has possible moves
         while moves_left:
-            valid_move = False
 
+            # Flag to record if the player has entered a valid move
+            valid_move = False
+            
+            # Loop until the player enters a valid move
             while not valid_move:
+
+                # Get input from the player and return to start of loop if not
+                # in a valid format
                 next_move = get_move(term_manager)
                 formatted_move = validate_format(next_move)
                 if formatted_move[0] is False:
                     term_manager.show_msg(3, "Invalid format - try again")
                     continue
-
+                
+                # Check if the move is valid and return to start of loop if not
                 validated_move = validate_move(formatted_move, game_board)
-
                 if validated_move["valid"] is False:
                     term_manager.show_msg(3, "Invalid move - try again")
                     continue
 
+                # Extract the coordinates of cell the player is moving from,
+                # cell they are moving to and cell of peg to be removed
                 (from_row, from_col) = validated_move["from"]
                 (to_row, to_col) = validated_move["to"]
                 (remove_row, remove_col) = validated_move["remove"]
 
+                # Update cells with correct values, update stats and redraw
+                # board
                 game_board.board_arr[from_row, from_col] = 0
                 game_board.board_arr[to_row, to_col] = 1
                 game_board.board_arr[remove_row, remove_col] = 0
@@ -494,11 +511,15 @@ def main(stdscr):
                 draw_board(game_board, term_manager)
 
                 term_manager.show_msg(3, "Great move! Next turn")
-
+                
+                # Player has made a valid move so update flag to exit loop
                 valid_move = True
-
+            
+            # Check if there are still valid moves remaining
             moves_left = eval_moves(game_board)
-
+        
+        # Player is out of moves. Check if they've won and
+        # display appropriate message.
         if check_win(game_board):
             endgame_msg = "Wow, you've won! Well done!!!"
         else:
@@ -509,6 +530,6 @@ def main(stdscr):
 
 
 # Initialises curses display and passes a reference to the terminal display
-# and calls our main main function when com plete, passing it a reference to
+# and calls main function when complete, passing it a reference to
 # the terminal display.
 wrapper(main)
