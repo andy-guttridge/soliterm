@@ -44,11 +44,11 @@ class TermManager:
         Displays each string on a new line.
         """
         i = 0
-        # Clear window, loop through strings, position cursor, clear line,
+        # Loop through strings, position cursor, clear line,
         # display string
-        self.bottom_win.clear()
         for string in strs:
             self.bottom_win.move(row + i, 0)
+            self.bottom_win.clrtoeol()
             self.bottom_win.addstr(row + i, 0, string, curses.color_pair(4))
             i += 1
         self.bottom_win.refresh()
@@ -156,7 +156,7 @@ def show_title(term_manager):
 
     # Prompt player to press a key in the bottom window
     # and wait for key press.
-    term_manager.show_msg(0, "Press a key when ready")
+    term_manager.show_msg(0, "Press a key when ready", "", "", "")
     term_manager.bottom_win.getkey()
 
 
@@ -498,7 +498,6 @@ def main(stdscr):
                     term_manager.show_msg(4, "Invalid format - try again")
                     continue
                 # Check for special cases and exit or display instructions
-                # if appropriate
                 elif formatted_move[1] == -1:
                     exit("Soliterm exited")
                 elif formatted_move[1] == -2:
@@ -541,7 +540,7 @@ def main(stdscr):
         else:
             endgame_msg = "There are no moves left - game over"
 
-        term_manager.show_msg(0, endgame_msg, "Press a key to continue")
+        term_manager.show_msg(0, endgame_msg, "Press a key to continue", "", "", "")
         term_manager.bottom_win.getkey()
 
 
