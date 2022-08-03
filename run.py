@@ -156,7 +156,7 @@ def show_title(term_manager):
 
     # Prompt player to press a key in the bottom window
     # and wait for key press.
-    term_manager.show_msg(0, "Press a key when ready", "", "", "")
+    term_manager.show_msg(0, "Press a key when ready", "", "", "", "")
     term_manager.bottom_win.getkey()
 
 
