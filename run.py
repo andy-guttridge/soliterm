@@ -3,8 +3,8 @@
 # Import libraries
 import curses
 from curses import wrapper
+from sys import exit as sys_exit
 import numpy as np
-from sys import exit
 
 
 class TermManager:
@@ -70,21 +70,21 @@ class GameBoard:
         self.board_arr = np.array(
             # Starting layout for final game
             [
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2]
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]
             ]
         )
         # Init number of pegs in the board and number of turns
@@ -239,9 +239,9 @@ def get_move(term_manager):
     """
     # Print example of valid move and prompt player to enter move
     term_manager.show_msg(0, "Move format is column, row, "
-                          "direction, e.g. h10u", "or enter i for instructions" 
+                          "direction, e.g. h10u", "or enter i for instructions"
                           ", or q to quit", " ", "Enter next move> ")
-    
+
     # Echo user input to terminal, get input and turn off echo
     curses.echo()
     player_input =\
@@ -258,7 +258,7 @@ def validate_format(move):
 
     Returns a tuple containing a bool to indicate if the move was
     in a valid format, and the row, column and direction of the move
-    if it was valid. Also returns special values for quit or 
+    if it was valid. Also returns special values for quit or
     instructions.
 
     Row and column are integers, direction is a string.
@@ -267,7 +267,7 @@ def validate_format(move):
     # If player enters q for quit return special value
     if move.lower() == "q":
         return(True, -1, 0, "0")
-    
+
     # If player enters i for instructions return special value
     if move.lower() == "i":
         return(True, -2, 0, "0")
@@ -467,7 +467,7 @@ def main(stdscr):
     The main game loop.
     """
     term_manager = TermManager(stdscr)
-    
+
     #  Outer loop which encompasses the starting screen and game
     while True:
 
@@ -477,21 +477,21 @@ def main(stdscr):
         # Instantiate game_board instance and draw the board on the screen
         game_board = GameBoard()
         draw_board(game_board, term_manager)
-        
+
         # Flag to record if the player has any moves left
         moves_left = True
-        
+
         # Loop while the player still has possible moves
         while moves_left:
 
             # Flag to record if the player has entered a valid move
             valid_move = False
-            
+
             # Loop until the player enters a valid move
             while not valid_move:
 
                 # Get input from the player and return to start of loop if not
-                # in a valid format. 
+                # in a valid format.
                 next_move = get_move(term_manager)
                 formatted_move = validate_format(next_move)
                 if formatted_move[0] is False:
@@ -499,12 +499,12 @@ def main(stdscr):
                     continue
                 # Check for special cases and exit or display instructions
                 elif formatted_move[1] == -1:
-                    exit("Soliterm exited")
+                    sys_exit("Soliterm exited")
                 elif formatted_move[1] == -2:
                     show_title(term_manager)
                     draw_board(game_board, term_manager)
                     continue
-                
+
                 # Check if the move is valid and return to start of loop if not
                 validated_move = validate_move(formatted_move, game_board)
                 if validated_move["valid"] is False:
@@ -526,13 +526,13 @@ def main(stdscr):
                 draw_board(game_board, term_manager)
 
                 term_manager.show_msg(4, "Great move! Next turn")
-                
+
                 # Player has made a valid move so update flag to exit loop
                 valid_move = True
-            
+
             # Check if there are still valid moves remaining
             moves_left = eval_moves(game_board)
-        
+
         # Player is out of moves. Check if they've won and
         # display appropriate message.
         if check_win(game_board):
@@ -540,7 +540,8 @@ def main(stdscr):
         else:
             endgame_msg = "There are no moves left - game over"
 
-        term_manager.show_msg(0, endgame_msg, "Press a key to continue", "", "", "")
+        term_manager.show_msg(0, endgame_msg, "Press a key to continue", "",
+                              "", "")
         term_manager.bottom_win.getkey()
 
 

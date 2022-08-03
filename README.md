@@ -1,14 +1,20 @@
 # Soliterm
 ## A game of peg solitaire to play in the terminal
 Soliterm is a game of [Peg Solitaire](https://en.wikipedia.org/wiki/Peg_solitaire) - also known as Solo Noble - that runs in the terminal and developed in Python.
-The objective of Soliterm is to empty the game board, except for a single peg in the central hole and using only valid moves.
-A peg may move orthogonally over an adjacent peg into a hole two positions away - the peg that has just been 'jumped' over is then removed.
+A real game of Solitaire takes place using a board with holes containing pegs:
+
+<p align="center">
+    <img src="readme_assets/peg_solitaire.png" alt="Image of a peg solitiare board" align="center" width="200">
+</p>
+
+The objective of Peg Solitaire is to empty the game board, except for leaving a single peg in the central hole and using only valid moves.
+A peg can only move vertically or horizontally (but not diagonally) by 'jumping' over an adjacent peg into a hole two positions away - the peg that has just been 'jumped' over is then removed. Pegs cannot move directly into a space next to them.
 
 This implementation was inspired by the one in 'The Turing Criterion - Machine Intelligent Programes for the 16K ZX81' (Charlton, Harrison, Jones and Hartnell, 1982), and has 124 holes as opposed to 33 in the traditional English version.
 
 <p align="center">
-    <img src="readme_assets/zx81-1.png" alt="Machine Intelligent Programmes for the 16K ZX81 book cover" align="center">
-    <img src="readme_assets/zx81-2.png" alt="Machine Intelligent Programmes for the 16K ZX81 Solitaire screen shot" align="center" height="345">
+    <img src="readme_assets/zx81_1.png" alt="Machine Intelligent Programmes for the 16K ZX81 book cover" align="center">
+    <img src="readme_assets/zx81_2.png" alt="Machine Intelligent Programmes for the 16K ZX81 Solitaire screen shot" align="center" height="345">
 </p>
 
 ## Table of contents
@@ -26,10 +32,43 @@ The objectives of the application are:
 7. To inform the user if there are no valid moves left.
 
 ## Features
-*To complete*
-
 ### Existing features
-*To complete*
+#### Title screen and instructions
+Soliterm features a title screen with an ASCII art logo, a 'tagline' to provide a succint explanation of the purpose of the application, and instructions on how to play.
+The player can view the instructions again at any time during the game.
+
+<p align="center">
+    <img src="readme_assets/title_screen.png" alt="Image of a peg solitiare board" align="center" width="500">
+</p>
+
+#### Peg Solitaire Board
+The game screen features a virtual representation of a Peg Solitare board, with pegs represented by `*` and empty holes represented by a blue space. Columns are labelled with letters, and rows with numbers.
+<p align="center">
+    <img src="readme_assets/game_board.png" alt="Image of a peg solitiare board" align="center" width="500">
+</p>
+
+#### Game Stats
+The game screen displays the number of pegs currently left in the board and number of turns taken. While the game can be completed in any number of turns, players might enjoy trying to complete the game in as few moves as possible. The number of pegs left is useful for the player to understand how close they have managed to get to successfully completing the game.
+<p align="center">
+    <img src="readme_assets/game_stats.png" alt="Image of a peg solitiare board" align="center">
+</p>
+
+####  Input prompt
+The player is presented with a clear prompt to enter the next move, including an example of the correct format and information on how to quit or view the instructions again.
+
+<p align="center">
+    <img src="readme_assets/prompt.png" alt="Image of a peg solitiare board" align="center">
+</p>
+
+#### Input validation and responses
+The player's input is validated for both its format and whether the player's desired move is valid within the rules of the game. The player is presented with a clear prompt to try again in the event that either type of validation fails.
+
+<p align="center">
+    <img src="readme_assets/invalid_format.png" alt="Image of a peg solitiare board" align="center">
+    <img src="readme_assets/invalid_move.png" alt="Image of a peg solitiare board" align="center">
+</p>
+
+
 
 ### Future features
 *To complete*
@@ -80,4 +119,5 @@ The objectives of the application are:
 - This tutorial from [thispointer.com](https://thispointer.com/count-occurrences-of-a-value-in-numpy-array-in-python/) was referenced to learn how to count the number of occurences of a value in an array
 
 ### Content
-*To complete*
+- Image of wooden peg solitaire board at the top of the read-me is from [Complexity of Games](https://www.isnphard.com/i/peg-solitaire/)
+- The read-me contains two scanned pictures of the book 'Machine Intelligent Programmes for the ZX81' (Charlton, Harrison, Jones and Hartnell, 1982)
