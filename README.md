@@ -37,24 +37,34 @@ The objectives of the application are:
 Soliterm features a title screen with an ASCII art logo, a 'tagline' to provide a succint explanation of the purpose of the application, and instructions on how to play.
 The player can view the instructions again at any time during the game.
 
+The title screen and instructions support objectives 1 and 2.
+
 <p align="center">
     <img src="readme_assets/title_screen.png" alt="Image of a peg solitiare board" align="center" width="500">
 </p>
 
 #### Peg Solitaire Board
 The game screen features a virtual representation of a Peg Solitare board, with pegs represented by `*` and empty holes represented by a blue space. Columns are labelled with letters, and rows with numbers.
+
+The representation of the solitaire board supports objectives 1 and 3.
+
 <p align="center">
     <img src="readme_assets/game_board.png" alt="Image of a peg solitiare board" align="center" width="500">
 </p>
 
-#### Game Stats
+#### Game Statistics
 The game screen displays the number of pegs currently left in the board and number of turns taken. While the game can be completed in any number of turns, players might enjoy trying to complete the game in as few moves as possible. The number of pegs left is useful for the player to understand how close they have managed to get to successfully completing the game.
+
+The game statistics support objectives 1, 5 and 6.
+
 <p align="center">
     <img src="readme_assets/game_stats.png" alt="Image of a peg solitiare board" align="center">
 </p>
 
-####  Input prompt
+#### Input prompt
 The player is presented with a clear prompt to enter the next move, including an example of the correct format and information on how to quit or view the instructions again.
+
+The input prompt supports objectives 1 and 2.
 
 <p align="center">
     <img src="readme_assets/prompt.png" alt="Image of a peg solitiare board" align="center">
@@ -63,9 +73,21 @@ The player is presented with a clear prompt to enter the next move, including an
 #### Input validation and responses
 The player's input is validated for both its format and whether the player's desired move is valid within the rules of the game. The player is presented with a clear prompt to try again in the event that either type of validation fails.
 
+The input validation and responses support objectives 1, 2 and 4.
+
 <p align="center">
     <img src="readme_assets/invalid_format.png" alt="Image of a peg solitiare board" align="center">
     <img src="readme_assets/invalid_move.png" alt="Image of a peg solitiare board" align="center">
+</p>
+
+#### End of game messages
+For each turn entered by the player, the game checks whether there are any further possible moves left. When the player has run out of moves, the game checks whether the player has won by ending up with one remaining peg in the centre hole. A 'game over' or 'well done' message is displayed, as appropriate.
+
+The end of game messages support objective 7.
+
+<p align="center">
+    <img src="readme_assets/lose_msg.png" alt="Image of a peg solitiare board" align="center">
+    <img src="readme_assets/win_msg.png" alt="Image of a peg solitiare board" align="center">
 </p>
 
 
