@@ -93,7 +93,7 @@ The end of game messages support objective 7.
 
 
 ### Future features
-All originally planned features were implemented. 
+All originally planned features were successfully implemented. 
 
 An additional feature that could be added would be a choice of difficulty level. The 124 hole version of Peg Solitaire is quite challenging, so adding an easier option with a game board based on a traditional 33 hole layout might make the game more approachable. This could be accomplished by offering the player a choice at the start of the game, and initialising the 2D array used to represent the game board differently in response to user input. The `draw_board()` function - which is responsible for drawing the board on the screen - may need to be configured differently to display a smaller board, for example by allocating more horizontal and vertical spaces to each hole so that the less challenging board does not appear too small.
 
@@ -101,6 +101,9 @@ An additional feature that could be added would be a choice of difficulty level.
 - The Python [curses](https://docs.python.org/3/library/curses.html#module-curses) module was used to access the C ncurses library directly using Python. This allows more advanced manipulation of the text displayed in the terminal than would otherwise be possible. The aim was to provide the player with a clear view of the game board, and to consistently position the data on the number of pegs left, the number of moves made and the area where the player is prompted for their input in the terminal window. Without using a library such as ncurses, the terminal would quickly fill with text, which would scroll off the screen, and the game board would have to be repeatedly redrawn at the current cursor position, as the previous iteration scrolled up the screen. Soliterm also takes advantage of the fact that ncurses allows the use of basic colour where supported by the terminal.
 - The [NumPy](https://www.w3schools.com/python/numpy/default.asp) library is used for the array representing the game board. Standard Python lists would have been sufficient, however NumPy was chosen because its arrays are usually quicker than standard Python lists, and it allows simple creation and manipulation of a 2D array, which is a convenient data structure for representing the Solitare board.
 - The `exit()` function from the `sys` library was used to ensure a clean exit in the event the player chooses to quit from within the game.
+
+## Planning
+*Flow chart to go here*
 
 ## Data model
 ### GameBoard class
