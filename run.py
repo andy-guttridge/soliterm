@@ -131,9 +131,9 @@ def show_title(term_manager):
         "Spaces are shown in blue.",
         "Enter your move with column, row and u, d, l or r for up, down, "
         "left or right.",
+        "The computer will tell you if you run out of moves.",
         " ",
         "Example: h10d to move peg in hole H10 down.",
-        " ",
         "Example: n6l to move peg in hole N6 left."
     ])
 
