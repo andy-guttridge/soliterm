@@ -236,15 +236,12 @@ def get_move(term_manager):
     Prompts the player to enter their next move,
     accepts input and returns the value entered.
     """
-    term_manager.bottom_win.addnstr(0, 0, "Move format is column, row, "
-                                    "direction, e.g. h10u",
-                                    curses.color_pair(4))
-    term_manager.bottom_win.move(1, 0)
-    term_manager.bottom_win.clrtoeol()
-    term_manager.bottom_win.addstr(1, 0, "Enter next move> ",
-                                   curses.color_pair(4))
+    # Print example of valid move and prompt player to enter move
+    term_manager.show_msg(0, "Move format is column, row, "
+                          "direction, e.g. h10u", "Enter next move> ")
+    
+    # Echo user input to terminal, get input and turn off echo
     curses.echo()
-
     player_input =\
         term_manager.bottom_win.getstr(1, 18, 4).decode(encoding="utf=8")
     curses.noecho()
@@ -393,7 +390,6 @@ def validate_move(move, game_board):
         else:
             return validated_dict
 
-    # If we haven't found a valid move by now, there can't be one
     return validated_dict
 
 
