@@ -287,18 +287,19 @@ def validate_format(move):
 
     Row and column are integers, direction is a string.
     """
+    validated_move = [True, 0, 0, 0]
 
     # If player enters q for quit return special value
     if move.lower() == "q":
-        return(True, -1, 0, "0")
+        return (False, -1, 0, "0")
 
     # If player enters i for instructions return special value
     if move.lower() == "i":
-        return(True, -2, 0, "0")
+        return (False, -2, 0, "0")
 
     # If move is not 3 or 4 characters, it is invalid.
-    if len(move) > 4 or len(move) < 3:
-        return(False, 0, 0, "0")
+    if (len(move) > 4 or len(move) < 3) and validated_move[1] >= 0:
+        validated_move = (False, 0, 0, "0")
 
     # Extract column from move string and ensure lower case.
     column = move[0].lower()
@@ -317,9 +318,10 @@ def validate_format(move):
     # and if it is convert to an integer.
     letters = [chr(n) for n in range(ord("a"), ord("p"))]
     if column not in letters:
-        return(False, 0, 0, "0")
+        validated_move = (False, 0, 0, "0")
 
-    column_num = letters.index(column)
+    if validated_move[0] is not False:
+        column_num = letters.index(column)
 
     # Try to convert the row to an integer
     # and convert to zero indexed.
@@ -328,19 +330,26 @@ def validate_format(move):
     try:
         row_num = int(row) - 1
     except ValueError:
-        return(False, 0, 0, "0")
+        row_num = 0
+        validated_move = (False, 0, 0, "0")
 
     # Check if row is in allowed range
-    if row_num not in range(0, 15):
-        return(False, 0, 0, "0")
+    if row_num is not None and row_num not in range(0, 15):
+        validated_move = (False, 0, 0, "0")
 
     # Check if direction is allowed
     letters = ["u", "d", "l", "r"]
     if direction not in letters:
-        return(False, 0, 0, "0")
+        validated_move = (False, 0, 0, "0")
 
-    # Everything checks out, return validated move
-    return(True, row_num, column_num, direction)
+    if validated_move[0] is False:
+        # Return if move wasn't valid
+        return validated_move
+
+    # Move must be valid
+    # Assign values and return
+    validated_move = (True, row_num, column_num, direction)
+    return validated_move
 
 
 def validate_move(move, game_board):
@@ -436,7 +445,7 @@ def eval_moves(game_board):
 
             # If the cell has a peg, test if there is a valid move in each
             # direction in turn
-            elif cell == 1:
+            if cell == 1:
                 if row > 1:
                     if (board[row - 1, column] == 1) and (board[row - 2,
                                                           column] == 0):
@@ -507,15 +516,16 @@ def main(stdscr):
                 # in a valid format.
                 next_move = get_move(term_manager)
                 formatted_move = validate_format(next_move)
-                if formatted_move[0] is False:
-                    term_manager.show_msg(4, "Invalid format - try again")
-                    continue
                 # Check for special cases and exit or display instructions
-                elif formatted_move[1] == -1:
+                if formatted_move[1] == -1:
                     sys_exit("Soliterm exited - please play again soon!")
                 elif formatted_move[1] == -2:
                     show_title(term_manager)
                     draw_board(game_board, term_manager)
+                    continue
+
+                if formatted_move[0] is False:
+                    term_manager.show_msg(4, "Invalid format - try again")
                     continue
 
                 # Check if the move is valid and return to start of loop if not
