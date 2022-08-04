@@ -4,7 +4,8 @@
 </p>
 
 ## A game of peg solitaire to play in the terminal
-Soliterm is a game of [Peg Solitaire](https://en.wikipedia.org/wiki/Peg_solitaire) - also known as Solo Noble - that runs in the terminal and developed in Python.
+Soliterm is a game of [Peg Solitaire](https://en.wikipedia.org/wiki/Peg_solitaire) - also known as Solo Noble - that runs in the terminal, is developed in Python and runs in a 'mock terminal' embedded in a web page.
+
 A real game of Solitaire takes place using a board with holes containing pegs:
 
 <p align="center">
@@ -175,7 +176,8 @@ A separate `draw_board()` function handles drawing the board to the terminal scr
 ## Testing
 ### Method
 
-Testing of Soliterm was particularly challenging, given the large number of possible board configurations, valid moves and end game conditions.
+Testing of Soliterm was particularly challenging, given the large number of possible board configurations, valid moves and end game conditions. A range of invalid input formats were entered, including strings that were too short, empty strings and strings containing all manner of invalid letters, numbers and special characters. Likewise, a range of invalid moves were input, including attempting to move pegs into adjacent cells, into distant cells, into cells already occupied and the special unplayble cells at the corners of the board. This range of invalid inputs was tested in both the local development environment and on the deployed site.
+
 It was apparent that a range of different states needed to be tested to detect as many bugs as possible, so the following approach was adopted:
 
 - While developing the `validate_format()` function, which is responsible for both validating the format of the player's input and returning the coordinates and direction of any valid move, a test function called `debug_output_move()` was used to output a string containing the outcome of the validation (`True` or `False`), row, column and direction of the player's move to the terminal. This function was removed once the `validate_format()` had been completed and confirmed to work correctly.
