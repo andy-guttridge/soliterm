@@ -1,3 +1,8 @@
+"""
+Contains all Python code for Soliterm -
+a game of Peg Solitaire for the terminal
+"""
+
 # Import libraries
 import curses
 from curses import wrapper
