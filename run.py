@@ -298,7 +298,7 @@ def validate_format(move):
         return (False, -2, 0, "0")
 
     # If move is not 3 or 4 characters, it is invalid.
-    if (len(move) > 4 or len(move) < 3) and validated_move[1] >= 0:
+    if (len(move) > 4 or len(move) < 3):
         validated_move = (False, 0, 0, "0")
 
     # Extract column from move string and ensure lower case.
@@ -330,11 +330,10 @@ def validate_format(move):
     try:
         row_num = int(row) - 1
     except ValueError:
-        row_num = 0
-        validated_move = (False, 0, 0, "0")
+        return (False, 0, 0, "0")
 
     # Check if row is in allowed range
-    if row_num is not None and row_num not in range(0, 15):
+    if row_num not in range(0, 15):
         validated_move = (False, 0, 0, "0")
 
     # Check if direction is allowed
