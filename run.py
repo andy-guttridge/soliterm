@@ -296,15 +296,9 @@ def validate_format(move):
     if move.lower() == "i":
         return(True, -2, 0, "0")
 
-<<<<<<< HEAD
-    # If move is not 3 or 4 characters, it is invalid
-    if (len(move) > 4 or len(move) < 3):
-        validated_move = (False, 0, 0, "0")
-=======
     # If move is not 3 or 4 characters, it is invalid.
     if len(move) > 4 or len(move) < 3:
         return(False, 0, 0, "0")
->>>>>>> parent of b1a98f8 (Refactor: eliminate excessive return statements from validate_format())
 
     # Extract column from move string and ensure lower case
     column = move[0].lower()
@@ -334,19 +328,11 @@ def validate_format(move):
     try:
         row_num = int(row) - 1
     except ValueError:
-<<<<<<< HEAD
-        return (False, 0, 0, "0")
-
-    # Check if row is in allowed range
-    if row_num not in range(0, 15):
-        validated_move = (False, 0, 0, "0")
-=======
         return(False, 0, 0, "0")
 
     # Check if row is in allowed range
     if row_num not in range(0, 15):
         return(False, 0, 0, "0")
->>>>>>> parent of b1a98f8 (Refactor: eliminate excessive return statements from validate_format())
 
     # Check if direction is allowed
     letters = ["u", "d", "l", "r"]
