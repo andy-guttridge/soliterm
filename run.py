@@ -13,15 +13,15 @@ import numpy as np
 class TermManager:
     """
     Sets up two curses terminal windows and contains references to these
-    in top_win and bottom_win instance variables. Initialises curses color
+    in top_win and bottom_win instance variables.  Initialises curses color
     pairs.
     """
     def __init__(self, stdscr):
         """
-        Initialise instance of TermManager. Accepts a reference to the
-        curses terminal display as an argument. Clears the screen, sets up
+        Initialise instance of TermManager.  Accepts a reference to the
+        curses terminal display as an argument.  Clears the screen, sets up
         top and bottomm windows and stores them as top_win and bottom_win
-        instance variables. Initialises curses color pairs.
+        instance variables.  Initialises curses color pairs.
         """
         # Get a reference to the screen and clear it
         self.stdscr = stdscr
@@ -74,24 +74,24 @@ class GameBoard:
         self.board_arr = np.array(
             # Starting layout for final game
             [
-                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2],
-                [2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2]
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+                [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2]
             ]
         )
-        # Init number of pegs in the board and number of turns
+        # Init number of pegs in the board and number of turns.
         # Technique to count number of occurences of a value in an array from
         # https://thispointer.com/count-occurrences-of-a-value-in-numpy-array-in-python/
         self.num_pegs = np.count_nonzero(self.board_arr == 1)
@@ -297,11 +297,11 @@ def validate_format(move):
     if move.lower() == "i":
         return (False, -2, 0, "0")
 
-    # If move is not 3 or 4 characters, it is invalid.
+    # If move is not 3 or 4 characters, it is invalid
     if (len(move) > 4 or len(move) < 3):
         validated_move = (False, 0, 0, "0")
 
-    # Extract column from move string and ensure lower case.
+    # Extract column from move string and ensure lower case
     column = move[0].lower()
 
     # If string is 3 characters, the row is the second character.
@@ -311,7 +311,7 @@ def validate_format(move):
     else:
         row = move[1:3]
 
-    # The direction is always the last character.
+    # The direction is always the last character
     direction = move[-1].lower()
 
     # Check if the column is within the allowed range
@@ -547,7 +547,7 @@ def main(stdscr):
             # Check if there are still valid moves remaining
             moves_left = eval_moves(game_board)
 
-        # Player is out of moves. Check if they've won and
+        # Player is out of moves.  Check if they've won and
         # display appropriate message.
         if check_win(game_board):
             endgame_msg = "Wow, you've won! Well done!!!"
