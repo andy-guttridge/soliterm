@@ -97,13 +97,17 @@ All originally planned features were successfully implemented.
 
 An additional feature that could be added would be a choice of difficulty level. The 124 hole version of Peg Solitaire is quite challenging, so adding an easier option with a game board based on a traditional 33 hole layout might make the game more approachable. This could be accomplished by offering the player a choice at the start of the game, and initialising the 2D array used to represent the game board differently in response to user input. The `draw_board()` function - which is responsible for drawing the board on the screen - may need to be configured differently to display a smaller board, for example by allocating more horizontal and vertical spaces to each hole so that the less challenging board does not appear too small.
 
+## Planning
+Once the initial idea was conceived, the very first work undertaken was an initial experiment with the curses library to evaluate its capabilities and ease of use. This consisted of defining two terminal windows and displaying some simple coloured text in each window within the `main()` function of the `run.py` file. Having confirmed curses would be suitable, the project objectives were drafted and a <a href="readme_assets/soliterm_flow.pdf" target ="_blank">flow chart</a> to plan the overall logic of the game was created.  
+
+The flow chart proved invaluable in mapping out decision points, determining where data would need to be evaluated and in planning the functions that would be required to implement the intended functionality. 
+
+Once coding began, it became apparent that it would make more sense to call the `eval_moves()` function at the end of the main loop since the player could not have run out of valid moves at the start of the game. A decision was then taken to define a `GameBoard` class to represent the game board, and the `update_stats()` function is implemented as a method within that class, although this does not affect the logic of the flow chart. The functionality of the `board.update()` method on the flow chart was implemented within the `main()` function until late in development due to an oversight - the opportunity was then taken to simplify `main()` by implementing am `update_board()` method on the `GameBoard` class.
+
 ## Libraries used
 - The Python [curses](https://docs.python.org/3/library/curses.html#module-curses) module was used to access the C ncurses library directly using Python. This allows more advanced manipulation of the text displayed in the terminal than would otherwise be possible. The aim was to provide the player with a clear view of the game board, and to consistently position the data on the number of pegs left, the number of moves made and the area where the player is prompted for their input in the terminal window. Without using a library such as ncurses, the terminal would quickly fill with text, which would scroll off the screen, and the game board would have to be repeatedly redrawn at the current cursor position, as the previous iteration scrolled up the screen. Soliterm also takes advantage of the fact that ncurses allows the use of basic colour where supported by the terminal.
 - The [NumPy](https://www.w3schools.com/python/numpy/default.asp) library is used for the array representing the game board. Standard Python lists would have been sufficient, however NumPy was chosen because its arrays are usually quicker than standard Python lists, and it allows simple creation and manipulation of a 2D array, which is a convenient data structure for representing the Solitare board.
 - The `exit()` function from the `sys` library was used to ensure a clean exit in the event the player chooses to quit from within the game.
-
-## Planning
-*Flow chart to go here*
 
 ## Data model
 ### GameBoard class

@@ -93,6 +93,22 @@ class GameBoard:
         self.num_pegs = np.count_nonzero(self.board_arr == 1)
         self.num_turns = 0
 
+    def update_board(self, validated_move):
+        """
+        Accepts a dictionary containing a validated move as an argument,
+        extracts the values and updates the game board data model
+        """
+        # Extract the coordinates of cell the player is moving from,
+        # cell they are moving to and cell of peg to be removed
+        (from_row, from_col) = validated_move["from"]
+        (to_row, to_col) = validated_move["to"]
+        (remove_row, remove_col) = validated_move["remove"]
+
+        # Update cells with correct values
+        self.board_arr[from_row, from_col] = 0
+        self.board_arr[to_row, to_col] = 1
+        self.board_arr[remove_row, remove_col] = 0
+
     def update_stats(self):
         """
         Updates number of pegs in board and
@@ -511,17 +527,9 @@ def main(stdscr):
                     term_manager.show_msg(4, "Invalid move - try again")
                     continue
 
-                # Extract the coordinates of cell the player is moving from,
-                # cell they are moving to and cell of peg to be removed
-                (from_row, from_col) = validated_move["from"]
-                (to_row, to_col) = validated_move["to"]
-                (remove_row, remove_col) = validated_move["remove"]
-
-                # Update cells with correct values, update stats and redraw
-                # board
-                game_board.board_arr[from_row, from_col] = 0
-                game_board.board_arr[to_row, to_col] = 1
-                game_board.board_arr[remove_row, remove_col] = 0
+                # Update game board with valid move, update stats and
+                # redraw the board
+                game_board.update_board(validated_move)
                 game_board.update_stats()
                 draw_board(game_board, term_manager)
 
@@ -548,4 +556,5 @@ def main(stdscr):
 # Initialises curses display and passes a reference to the terminal display
 # and calls main function when complete, passing it a reference to
 # the terminal display.
+# Usage as per https://docs.python.org/3/howto/curses.html
 wrapper(main)
