@@ -1,5 +1,3 @@
-# Reminder - terminal size of 80 characters wide and 24 rows high
-
 # Import libraries
 import curses
 from curses import wrapper
@@ -11,7 +9,7 @@ class TermManager:
     """
     Sets up two curses terminal windows and contains references to these
     in top_win and bottom_win instance variables. Initialises curses color
-    pairs. 
+    pairs.
     """
     def __init__(self, stdscr):
         """
@@ -263,6 +261,8 @@ def get_move(term_manager):
 
     # Echo user input to terminal, get input and turn off echo
     curses.echo()
+    # Using decode() on getstr() as per
+    # https://stackoverflow.com/questions/21505871/curses-window-getstr
     player_input =\
         term_manager.bottom_win.getstr(3, 18, 4).decode(encoding="utf=8")
     curses.noecho()
