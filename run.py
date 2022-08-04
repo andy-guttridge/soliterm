@@ -511,7 +511,7 @@ def main(stdscr):
                     term_manager.show_msg(4, "Invalid format - try again")
                     continue
                 # Check for special cases and exit or display instructions
-                elif formatted_move[1] == -1:
+                if formatted_move[1] == -1:
                     sys_exit("Soliterm exited - please play again soon!")
                 elif formatted_move[1] == -2:
                     show_title(term_manager)
