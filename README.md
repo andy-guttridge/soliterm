@@ -148,7 +148,7 @@ A GameBoard class is defined to represent the board. This contains an instance v
     The starting layout of the array looks like this:
 
 ```
-[
+            [
                 [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
                 [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
                 [2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
