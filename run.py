@@ -318,8 +318,8 @@ def validate_format(move):
     letters = [chr(n) for n in range(ord("a"), ord("p"))]
     if column not in letters:
         return(False, 0, 0, "0")
-    else:
-        column_num = letters.index(column)
+
+    column_num = letters.index(column)
 
     # Try to convert the row to an integer
     # and convert to zero indexed.
@@ -377,9 +377,6 @@ def validate_move(move, game_board):
                 "to": (row_num + 2, column_num),
                 "remove": (row_num + 1, column_num)
             }
-            return validated_dict
-        else:
-            return validated_dict
 
     # If player wants to move up, the cell directly above
     # must have a peg and the cell above that must be empty
@@ -392,8 +389,6 @@ def validate_move(move, game_board):
                 "to": (row_num - 2, column_num),
                 "remove": (row_num - 1, column_num)
             }
-        else:
-            return validated_dict
 
     # If player wants to move left, the cell directly to the left
     # must have a peg and the cell to the left of that must be empty
@@ -406,8 +401,6 @@ def validate_move(move, game_board):
                 "to": (row_num, column_num - 2),
                 "remove": (row_num, column_num - 1)
             }
-        else:
-            return validated_dict
 
     # If player wants to move right, the cell directly to the right
     # must have a peg and the cell to the right of that must be empty
@@ -421,8 +414,6 @@ def validate_move(move, game_board):
                 "to": (row_num, column_num + 2),
                 "remove": (row_num, column_num + 1)
             }
-        else:
-            return validated_dict
 
     return validated_dict
 
