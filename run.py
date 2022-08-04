@@ -11,8 +11,7 @@ class TermManager:
     """
     Sets up two curses terminal windows and contains references to these
     in top_win and bottom_win instance variables. Initialises curses color
-    pairs. Stores number of pegs in the board and number of turns, and
-    has a method to update these.
+    pairs. 
     """
     def __init__(self, stdscr):
         """
@@ -57,6 +56,8 @@ class TermManager:
 class GameBoard:
     """
     Holds a 2D array representing the game board.
+    Stores number of pegs in the board and number of turns, and
+    has a method to update these.
     """
     def __init__(self):
         """
@@ -126,6 +127,8 @@ def show_title(term_manager):
     Waits for player to press a key to start.
     """
     # Define strings to display
+    # ASCII art logo generated using
+    # https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Soliterm
     logo = np.array([
         r"              _________      .__  .__  __                        ",
         r"             /   _____/ ____ |  | |__|/  |_  ___________  _____  ",
@@ -360,7 +363,6 @@ def validate_move(move, game_board):
 
     # If player wants to move down, the cell directly below
     # must have a peg and the cell below that must be empty
-
     if direction == "d" and row_num < (len(game_board.board_arr) - 2):
         if (game_board.board_arr[row_num + 1, column_num] == 1)\
           and (game_board.board_arr[row_num + 2, column_num] == 0):
@@ -376,7 +378,6 @@ def validate_move(move, game_board):
 
     # If player wants to move up, the cell directly above
     # must have a peg and the cell above that must be empty
-
     if direction == "u" and row_num > 1:
         if (game_board.board_arr[row_num - 1, column_num] == 1)\
           and (game_board.board_arr[row_num - 2, column_num] == 0):
