@@ -262,3 +262,5 @@ To deploy in Heroku:
 - Image of wooden peg solitaire board at the top of the read-me is from [Complexity of Games](https://www.isnphard.com/i/peg-solitaire/)
 - The read-me contains two scanned pictures of the book 'Machine Intelligent Programmes for the ZX81' (Charlton, Harrison, Jones and Hartnell, 1982)
 - The ASCII art Soliterm logo was generated using [patorjk.com](https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Soliterm)
+
+#### Thanks to [Adegbenga Adeye](https://ng.linkedin.com/in/adegbenga-adeye-psm-i-14003635?original_referer=https%3A%2F%2Fwww.google.com%2F) for guidance throughout the project.
