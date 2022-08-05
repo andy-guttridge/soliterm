@@ -4,7 +4,7 @@
 </p>
 
 ## A game of peg solitaire to play in the terminal
-Soliterm is a game of [Peg Solitaire](https://en.wikipedia.org/wiki/Peg_solitaire) - also known as Solo Noble - that runs in the terminal, is developed in Python and runs in a 'mock terminal' embedded in a web page.
+Soliterm is a game of [Peg Solitaire](https://en.wikipedia.org/wiki/Peg_solitaire) - also known as Solo Noble - that is developed in Python for the terminal, and is deployed in a 'mock terminal' embedded in a web page.
 
 A real game of Solitaire takes place using a board with holes containing pegs:
 
@@ -131,7 +131,7 @@ Once the initial idea was conceived, the first work undertaken was an initial ex
 
 The flow chart proved invaluable in mapping out decision points, determining where data would need to be evaluated and in planning the functions that would be required to implement the intended functionality. 
 
-Once coding began, it became apparent that the `eval_moves()` function should be called at the end of the main loop since the player could not have run out of valid moves at the start of the game. A decision was then taken to define a `GameBoard` class to represent the game board - the `update_stats()` function is implemented as a method within that class, although this does not affect the logic of the flow chart. The functionality of the `board.update()` method depicted on the flow chart was implemented within the `main()` function until a late stage of development - this was due to an oversight, and once realised the opportunity was then taken to simplify `main()` by implementing an `update_board()` method on the `GameBoard` class.
+Once coding began, it became apparent that the `eval_moves()` function should be called at the end of the main loop since the player could not have run out of valid moves at the start of the game. A decision was then taken to define a `GameBoard` class to represent the game board - the `update_stats()` function is implemented as a method within that class, although this does not affect the logic of the flow chart. Likewise the functionality envisioned for the `setup()` function on the flow chart was implemented within the `__init__` method of a `TermManager` class, which is responsible for intialising the terminal display using the curses library and holds references to the terminal 'windows'. The functionality of the `board.update()` method depicted on the flow chart was implemented within the `main()` function until a late stage of development - this was due to an oversight, and once realised the opportunity was then taken to simplify `main()` by implementing an `update_board()` method on the `GameBoard` class.
 
 ## Libraries used
 - The Python [curses](https://docs.python.org/3/library/curses.html#module-curses) module was used to access the C ncurses library directly using Python. This allows more advanced manipulation of the text displayed in the terminal than would otherwise be possible. The aim was to provide the player with a clear view of the game board, and to consistently position the data on the number of pegs left, the number of moves made and the area where the player is prompted for their input in the terminal window. Without using a library such as ncurses, the terminal would quickly fill with text, which would scroll off the screen, and the game board would have to be repeatedly redrawn at the current cursor position, as the previous iteration scrolled up the screen. Soliterm also takes advantage of the fact that ncurses allows the use of basic colour where supported by the terminal.
