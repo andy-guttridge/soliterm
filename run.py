@@ -244,13 +244,13 @@ def draw_board(game_board, term_manager):
         term_manager.top_win.addstr(num, 70, f' {str(num)} ',
                                     curses.color_pair(4))
 
-    # Print the game stats to the top window
+    # Print game stats to top window
     term_manager.top_win.addstr(0, 0, f"Pegs left: {game_board.num_pegs}",
                                 curses.color_pair(4))
     term_manager.top_win.addstr(1, 0, f"Turns taken: {game_board.num_turns}",
                                 curses.color_pair(4))
 
-    # Display the window now we've drawn to it
+    # Refresh window
     term_manager.top_win.refresh()
 
 
@@ -303,25 +303,24 @@ def validate_format(move):
     # Extract column from move string and ensure lower case
     column = move[0].lower()
 
-    # If string is 3 characters, the row is the second character.
+    # If string is 3 characters, row is the second character.
     # If string is 4 characters, slice out the second and third characters.
     if len(move) == 3:
         row = move[1]
     else:
         row = move[1:3]
 
-    # The direction is always the last character
+    # Direction is always the last character
     direction = move[-1].lower()
 
-    # Check if the column is within the allowed range
+    # Check if column is within allowed range
     # and if it is convert to an integer.
     letters = [chr(n) for n in range(ord("a"), ord("p"))]
     if column not in letters:
         return(False, 0, 0, "0")
-
     column_num = letters.index(column)
 
-    # Try to convert the row to an integer
+    # Try to convert row to an integer
     # and convert to zero indexed.
     # Catch error and return if player did not
     # enter a number.
@@ -350,11 +349,10 @@ def validate_move(move, game_board):
     move is valid, and if valid the location the player has moved
     from, where they are moving to and which peg to remove.
     """
-    # Unpack the player's move
+    # Unpack move
     (_, row_num, column_num, direction) = move
 
     # Initialise dictionary to hold details of all cells affected by move
-    # In the event of an invalid move, it is returned as initialised here
     validated_dict = {
         "valid": False,
         "from": (0, 0),
@@ -362,7 +360,7 @@ def validate_move(move, game_board):
         "remove": (0, 0)
     }
 
-    # Move can't be valid if the cell is an unplayable cell
+    # Move can't be valid if an unplayable cell
     if game_board.board_arr[row_num, column_num] == 2:
         return validated_dict
 
@@ -425,18 +423,18 @@ def eval_moves(game_board):
     """
     board = game_board.board_arr
 
-    # Work our way through each cell on the board
+    # Work through each cell on the board
     for row, col_arr in enumerate(board):
         for column, cell in enumerate(col_arr):
 
-            # If the cell is empty or an unplayble space,
-            # move onto the next cell
+            # If cell is empty or an unplayble space,
+            # move onto next cell
             if cell == 0 or cell == 2:
                 continue
 
-            # If the cell has a peg, test if there is a valid move in each
+            # If cell has a peg, test if there is a valid move in each
             # direction in turn
-            elif cell == 1:
+            if cell == 1:
                 if row > 1:
                     if (board[row - 1, column] == 1) and (board[row - 2,
                                                           column] == 0):
@@ -457,8 +455,8 @@ def eval_moves(game_board):
                                                           column + 2] == 0):
                         return True
 
-    # If we exit the loop without returning True,
-    # there can be no valid moves left
+    # If loop exited without finding any valid moves,
+    # there can be none left
     return False
 
 
@@ -467,7 +465,7 @@ def check_win(game_board):
     Checks if the player has won and
     returns True or False
     """
-    # If there is only one peg left and the middle position has a peg
+    # If there is only one peg left and middle cell has a peg
     # player must have won.
     if game_board.num_pegs == 1 and game_board.board_arr[7, 7] == 1:
         return True
@@ -484,32 +482,33 @@ def main(stdscr):
     #  Outer loop which encompasses the starting screen and game
     while True:
 
-        # Show the title page
+        # Show title page
         show_title(term_manager)
 
-        # Instantiate game_board instance and draw the board on the screen
+        # Instantiate game_board instance and draw board
         game_board = GameBoard()
         draw_board(game_board, term_manager)
 
-        # Flag to record if the player has any moves left
+        # Flag to record if player has any moves left
         moves_left = True
 
         # Loop while the player still has possible moves
         while moves_left:
 
-            # Flag to record if the player has entered a valid move
+            # Flag to record if player has entered a valid move
             valid_move = False
 
-            # Loop until the player enters a valid move
+            # Loop until player enters a valid move
             while not valid_move:
 
-                # Get input from the player and return to start of loop if not
-                # in a valid format.
+                # Get input from player and return to start of loop if not
+                # in valid format.
                 next_move = get_move(term_manager)
                 formatted_move = validate_format(next_move)
                 if formatted_move[0] is False:
                     term_manager.show_msg(4, "Invalid format - try again")
                     continue
+
                 # Check for special cases and exit or display instructions
                 if formatted_move[1] == -1:
                     sys_exit("Soliterm exited - please play again soon!")
@@ -518,14 +517,14 @@ def main(stdscr):
                     draw_board(game_board, term_manager)
                     continue
 
-                # Check if the move is valid and return to start of loop if not
+                # Check if move is valid and return to start of loop if not
                 validated_move = validate_move(formatted_move, game_board)
                 if validated_move["valid"] is False:
                     term_manager.show_msg(4, "Invalid move - try again")
                     continue
 
                 # Update game board with valid move, update stats and
-                # redraw the board
+                # redraw board
                 game_board.update_board(validated_move)
                 game_board.update_stats()
                 draw_board(game_board, term_manager)
@@ -550,8 +549,8 @@ def main(stdscr):
         term_manager.bottom_win.getkey()
 
 
-# Initialises curses display and passes a reference to the terminal display
-# and calls main function when complete, passing it a reference to
+# Initialises curses display and calls main function 
+# when complete, passing it a reference to
 # the terminal display.
 # Usage as per https://docs.python.org/3/howto/curses.html
 wrapper(main)
