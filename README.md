@@ -127,7 +127,15 @@ All originally planned features were successfully implemented.
 An additional feature that could be added would be a choice of difficulty level. The 124 hole version of Peg Solitaire is quite challenging, so adding an easier option with a game board based on a traditional 33 hole layout might make the game more approachable. This could be accomplished by offering the player a choice at the start of the game, and initialising the 2D array used to represent the game board according to the response. The `draw_board()` function - which is responsible for drawing the board on the screen - may need to be configured differently to display a smaller board, for example by allocating more horizontal and vertical spaces to each hole so that the less challenging board does not appear too small.
 
 ## Planning
-Once the initial idea was conceived, the first work undertaken was an initial experiment with the curses library to evaluate its capabilities and ease of use. This consisted of defining two terminal windows and displaying some simple coloured text in each window within the `main()` function of the `run.py` file. Having confirmed curses would be suitable, the project objectives and a <a href="readme_assets/soliterm_flow.pdf" target ="_blank">flow chart</a> to plan the overall logic of the game were drafted.  
+Once the initial idea was conceived, the first work undertaken was an initial experiment with the curses library to evaluate its capabilities and ease of use. This consisted of defining two terminal windows and displaying some simple coloured text in each window within the `main()` function of the `run.py` file. Having confirmed curses would be suitable, the project objectives and a flow chart to plan the overall logic of the game were drafted.  
+
+<p align="center">
+    <img src="readme_assets/soliterm_flow.png" alt="Screenshot of PEP8 validator output" align="center" width="500">
+</p>
+
+<p align="center">
+    <a href="readme_assets/soliterm_flow.pdf" target ="_blank">Link to full size flow chart PDF file</a>
+</p>
 
 The flow chart proved invaluable in mapping out decision points, determining where data would need to be evaluated and in planning the functions that would be required to implement the intended functionality. 
 
