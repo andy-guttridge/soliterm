@@ -24,6 +24,9 @@ This implementation was inspired by the one in 'The Turing Criterion - Machine I
 
 ## Table of contents
 - [Objectives](#objectives)
+    - [User Stories](#user-stories)
+        - [User's perspective](#users-perspective)
+        - [Site owner's perspective](#site-owners-perspective)
 - [Features](#features)
     - [Existing Features](#existing-features)
         - [Title screen and instructions](#title-screen-and-instructions)
@@ -50,15 +53,29 @@ This implementation was inspired by the one in 'The Turing Criterion - Machine I
 
 
 ## Objectives
-The objectives of the application are:
+The objective of the application from the site owner's perspective is to provide a game of Peg Solitaire that runs in the terminal environment, and that is deployed online via a 'mock terminal'. The application should provide clear instructions and feedback to the user, and should successfully validate the user's input.
 
-1. To provide the user with an entertaining game of Solitaire in a terminal environment.
-2. To provide clear instructions to the user.
-3. To present a clear representation of a Peg Solitaire board in a terminal.
-4. To successfully validate the user's entry of their next intended move, and provide feedback if the user enters a move in an invalid format or if the desired move is not possible within the rules of the game.
-5. To provide the user with feedback on how many pegs they have left in the board.
-6. To provide the user with feedback on how many moves they have made.
-7. To inform the user if there are no valid moves left.
+### User stories
+
+#### User's perspective
+
+1. As a user, I want to play an entertaining game of Peg Solitaire in a terminal environment.
+2. As a user, I want to be provided with clear instructions on how to play without having to leave the game.
+3. As a user, I want to be presented with a clear representation of a Peg Solitaire board.
+4. As a user, I want to be informed if I enter a move in the wrong format.
+5. As a user, I want to be informed if I enter a move which is against the rules of the game.
+6. As a user, I would like to see feedback on how many pegs I have left in the game board.
+7. As a user, I would like to see feedback on how many moves I have made.
+8. As a user, I would like to be informed if I have no valid moves left, and if I have won according to the rules.
+
+#### Site owner's perspective
+
+9. As a site owner, I want to provide the player with a compelling game of Peg Solitaire in the terminal.
+10. As a site owner, I want to provide the player with clear instructions so that they know how to play without leaving the application.
+11. As a site owner, I want to validate the user's input so that they are informed if they enter a move in the wrong format or which is against the rules, without causing unexpected behaviour or the game to crash.
+12. As a site owner, I want to provide the player with feedback on how many pegs are left in the game board.
+13. As a site owner, I want to provide the player with feedback on how many moves they have left.
+14. As a site owner, I want to ensure the player is aware if they have run out of moves, and when this occurs, whether they have won the game.
 
 ## Features
 ### Existing features
@@ -66,7 +83,7 @@ The objectives of the application are:
 Soliterm features a title screen with an ASCII art logo, a 'tagline' to provide a succint explanation of the purpose of the application, and instructions on how to play.
 The player can view the instructions again at any time during the game.
 
-The title screen and instructions support objectives 1 and 2.
+These features support user stories 1, 2, 9 and 10.
 
 <p align="center">
     <img src="readme_assets/title_screen.png" alt="Image of a peg solitiare board" align="center" width="500">
@@ -75,7 +92,7 @@ The title screen and instructions support objectives 1 and 2.
 #### Peg Solitaire Board
 The game screen features a virtual representation of a Peg Solitare board, with pegs represented by `*` and empty holes represented by a blue space. Columns are labelled with letters, and rows with numbers.
 
-The representation of the solitaire board supports objectives 1 and 3.
+The representation of the solitaire board supports user stories 1, 3 and 9.
 
 <p align="center">
     <img src="readme_assets/game_board.png" alt="Image of a peg solitiare board" align="center" width="500">
@@ -84,7 +101,7 @@ The representation of the solitaire board supports objectives 1 and 3.
 #### Game Statistics
 The game screen displays the number of pegs currently left in the board and number of turns taken. While there are no limits on the number of turns allowed, players might enjoy trying to complete the game in as few moves as possible. The number of pegs left is useful for the player to understand how close they have managed to get to successfully completing the game.
 
-The game statistics support objectives 1, 5 and 6.
+The game statistics support user stories 6, 7, 12 and 13.
 
 <p align="center">
     <img src="readme_assets/game_stats.png" alt="Image of a peg solitiare board" align="center">
@@ -94,7 +111,7 @@ The game statistics support objectives 1, 5 and 6.
 The player is presented with a clear prompt to enter the next move, including an example of the correct format and information on how to quit or view the instructions again.
 The original objectives did not require providing the quit and view instructions options, however they were added after testing revealed that both would be helpful additions.
 
-The input prompt supports objectives 1 and 2.
+The input prompt supports objectives 1, 2, 9 and 10.
 
 <p align="center">
     <img src="readme_assets/prompt.png" alt="Image of a peg solitiare board" align="center">
@@ -103,7 +120,7 @@ The input prompt supports objectives 1 and 2.
 #### Input validation and responses
 The player's input is validated for both its format and whether the desired move is valid within the rules of the game. The player is presented with a clear prompt to try again in the event that either type of validation fails.
 
-The input validation and responses support objectives 1, 2 and 4.
+The input validation and responses support objectives 1, 2, 4, 5, 9, 10 and 11.
 
 <p align="center">
     <img src="readme_assets/invalid_format.png" alt="Image of a peg solitiare board" align="center">
@@ -113,7 +130,7 @@ The input validation and responses support objectives 1, 2 and 4.
 #### End of game messages
 For each turn entered by the player, the game checks whether there are any further possible moves left. When the player has run out of moves, the game checks whether the player has won by ending up with one remaining peg in the centre hole. A 'game over' or 'well done' message is displayed, as appropriate.
 
-The end of game messages support objective 7.
+The end of game messages support user stories 8 and 14.
 
 <p align="center">
     <img src="readme_assets/lose_msg.png" alt="Image of a peg solitiare board" align="center">
