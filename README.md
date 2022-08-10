@@ -15,7 +15,7 @@ A real game of Solitaire takes place using a board with holes containing pegs:
 The objective of Peg Solitaire is to empty the game board, except for leaving a single peg in the central hole and using only valid moves.
 A peg can only move vertically or horizontally (but not diagonally) by 'jumping' over an adjacent peg into a hole two positions away - the peg that has just been 'jumped' over is then removed. Pegs cannot move directly into a space next to them.
 
-This implementation was inspired by the one in 'The Turing Criterion - Machine Intelligent Programes for the 16K ZX81' (Charlton, Harrison, Jones and Hartnell, 1982), and has 124 holes as opposed to 33 in the traditional English version.
+This implementation was inspired by the one written in BASIC in 'The Turing Criterion - Machine Intelligent Programes for the 16K ZX81' (Charlton, Harrison, Jones and Hartnell, 1982), and has 124 holes as opposed to 33 in the traditional English version.
 
 <p align="center">
     <img src="readme_assets/zx81_1.png" alt="Machine Intelligent Programmes for the 16K ZX81 book cover" align="center">
@@ -243,6 +243,7 @@ The code has now been checked using the [PEP8 online](http://pep8online.com/) li
 
 #### Unresolved bugs
 All detected bugs have been resolved, although the challenges of testing all possible states of the game board allows the possibility of undetected bugs.
+Please note testing revealed that the mock terminal used to deploy this application to the web and provided by Code Institute does not respond to user input when viewed in Safari on iOS or Mac OS, however this is a limitation of the mock terminal itself.
 
 ## Deployment
 The application has been deployed using the Code Institute 'mock terminal' template for Heroku.
