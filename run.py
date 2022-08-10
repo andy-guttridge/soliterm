@@ -549,7 +549,7 @@ def main(stdscr):
         term_manager.bottom_win.getkey()
 
 
-# Initialises curses display and calls main function 
+# Initialises curses display and calls main function
 # when complete, passing it a reference to
 # the terminal display.
 # Usage as per https://docs.python.org/3/howto/curses.html
