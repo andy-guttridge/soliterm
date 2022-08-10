@@ -243,6 +243,7 @@ The code has now been checked using the [PEP8 online](http://pep8online.com/) li
 
 #### Unresolved bugs
 All detected bugs have been resolved, although the challenges of testing all possible states of the game board allows the possibility of undetected bugs.
+
 Please note testing revealed that the mock terminal used to deploy this application to the web and provided by Code Institute does not respond to user input when viewed in Safari on iOS or Mac OS, however this is a limitation of the mock terminal itself.
 
 ## Deployment
